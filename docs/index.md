@@ -110,12 +110,23 @@ Obviamente que isto é extremamente simples e não tem utilidade quase nenhuma n
 
 Reparem que não há nenhum erro nas igualdades, ter `==` e `=` é diferente. `==` é usado para comparar e `=` é para definir uma variável. Por exemplo, `x == y` seria utilizado para comparar os valores de `x` e `y`, tendo como resultado verdadeiro ou falso, e `x = y` faz com que a variável `x` tenha o mesmo valor que `y`.
 
-Agora vamos tentar fazer a sequência de fibonacci utilizando um ciclo *for* e uma cláusula *if*:
+Agora vamos tentar fazer recriar o ciclo *while* feito anteriormente utilizando um ciclo *for* e uma cláusula *if*:
 
 ```julia
 first_term = 1
 second_term = 1
 
 for i = 1:10000
-    if first_term+second_term 
+    fib = second_term + first_term
+	first_term = second_term
+	second_term = fib
+	println(fib)
+    if first_term+second_term > 13
+	    break
+	end
+end
 ```
+
+Neste bocado já vemos várias coisas novas, por isso vê-las-emos uma a uma: logo na linha 4, `for i = 1:10000`, porque um número tão grande? Obviamente era desnecessário, mas teoricamente não sabemos quantos ciclos são necessários para a condição que pusemos se satisfazer, por isso pus um número muito grande para ter a certeza que o ciclo não acaba antes da nossa condição ser satisfeita.
+
+Na linha 8 temos a nossa condição, `if first_term+second_term > 13`. O código entre o `if` e o `end` só é avaliado caso a nossa condição seja verdadeira. O `break` significa apenas que queremos forçar o ciclo *for* a acabar, não interessa se faltam ciclos ou não, obtendo-se assim o mesmo resultado dos anteriores exemplos.
