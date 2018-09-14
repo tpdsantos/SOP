@@ -19,14 +19,14 @@ A REPL é a linha de comandos utilizada em *Julia*. Nesta linha de comandos é o
 
 O aspeto mais importante de qualquer linguagem de programação é a variável. Uma variável é algo que nos fornece a possibilidade de reutilizar pedaços de código de uma forma fácil, sejam esses pedaços uma simples linha de código ou 10000. No REPL, definir uma variável é tão simples quanto:
 
-```{julia; eval=false}
+```julia
 using weave
 variable = 1
 ```
 
 Com esta variável definida, podemos fazer inúmeros cálculos com ela:
 
-```{julia; eval=false}
+```julia
 variable * 2
 variable + 3*variable - variable/2
 ```
@@ -43,7 +43,7 @@ A recursividade é algo muito importante em qualquer linguagem, dá-nos a possib
 
 É o tipo de ciclo mais utilizado, pois é versátil, embora nem seja sempre o mais adequado. Um exemplo muito simples:
 
-```{julia; eval=false}
+```julia
 for i = 1:1:3 
     println(i)
 end
@@ -51,7 +51,7 @@ end
 
 Neste caso, ao dizermos `for i = 1:1:3`, estamos a dizer que queremos que todo o código entre esta linha e `end` corra três vezes (`1:1:3` significa que a variável `i` irá do 1, de 1 em 1, até ao 3, ou seja, 1, 2 e 3. Se o passo for de 1 em 1, podem omitir o 1 do meio e escrever apenas `for i = 1:3`). A função `println` faz com que o que está dentro dos parênteses seja mostrado na linha de comandos. Este exemplo não faz nada de útil, por isso vejamos outro onde tentamos calcular a sequência de fibonacci:
 
-```{julia; eval=false}
+```julia
 number_of_calculations = 5
 first_term = 1
 second_term = 1
@@ -71,7 +71,7 @@ Com este código podemos ver os primeiros valores da sequência de fibonacci, pr
 
 O ciclo *while* é outro exemplo de recursividade mais específico. Neste caso, em vez de especificarmos o número de vezes que se quer correr o código (no exemplo anterior, eram 5), temos de dizer quando é que queremos que *while* pare. Usaremos o exemplo anterior, mas em vez de um *for* utilizaremos um *while*. Para tentarmos replicar exatamente a mesma resposta, temos de saber qual o último valor determinado, que foi 13. Tendo em conta isso, vamos construir o ciclo:
 
-```{julia; eval=false}
+```julia
 number_of_calculations = 5
 first_term = 1
 second_term = 1
