@@ -1,5 +1,5 @@
 ---
-title : Introdução so software Julia
+title : Introdução ao software Julia
 author : Tiago Santos
 date : Criado a 13-09-2018, Atualizado a 14-09-2018
 ---
@@ -20,7 +20,6 @@ A REPL é a linha de comandos utilizada em *Julia*. Nesta linha de comandos é o
 O aspeto mais importante de qualquer linguagem de programação é a variável. Uma variável é algo que nos fornece a possibilidade de reutilizar pedaços de código de uma forma fácil, sejam esses pedaços uma simples linha de código ou 10000. No REPL, definir uma variável é tão simples quanto:
 
 ```julia
-using weave
 variable = 1
 ```
 
@@ -58,9 +57,9 @@ second_term = 1
 
 for i = 1:number_of_calculations
     fib = first_term + second_term
-	first_term = second_term
-	second_term = fib
-	println(fib)
+    first_term = second_term
+    second_term = fib
+    println(fib)
 end
 ```
 
@@ -78,9 +77,9 @@ second_term = 1
 
 while first_term+second_term <= 13
     fib = first_term + second_term
-	first_term = second_term
-	second_term = fib
-	println(fib)
+    first_term = second_term
+    second_term = fib
+    println(fib)
 end
 ```
 
@@ -96,4 +95,27 @@ No exemplo anterior do ciclo *while*, tivemos de tomar uma decisão, quando dize
 
 ### Cláusulas `if elseif else end`
 
+É impossível fugir a condições, e a mais versátil e simples é a cláusula `if`. Funciona praticamente como falamos, se aparecer "x" acontece "y", senão acontece "z". Em linguagem de programação ficaria algo assim:
 
+```julia
+x = 1
+if x == 1
+    y = 2
+else
+    y = 3
+end
+```
+
+Obviamente que isto é extremamente simples e não tem utilidade quase nenhuma na vida real, mas um exemplo simples é sempre o melhor para se entender os conceitos básicos. 
+
+Reparem que não há nenhum erro nas igualdades, ter `==` e `=` é diferente. `==` é usado para comparar e `=` é para definir uma variável. Por exemplo, `x == y` seria utilizado para comparar os valores de `x` e `y`, tendo como resultado verdadeiro ou falso, e `x = y` faz com que a variável `x` tenha o mesmo valor que `y`.
+
+Agora vamos tentar fazer a sequência de fibonacci utilizando um ciclo *for* e uma cláusula *if*:
+
+```julia
+first_term = 1
+second_term = 1
+
+for i = 1:10000
+    if first_term+second_term 
+```
