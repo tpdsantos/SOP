@@ -130,3 +130,85 @@ end
 Neste bocado já vemos várias coisas novas, por isso vê-las-emos uma a uma: logo na linha 4, `for i = 1:10000`, porque um número tão grande? Obviamente era desnecessário, mas teoricamente não sabemos quantos ciclos são necessários para a condição que pusemos se satisfazer, por isso pus um número muito grande para ter a certeza que o ciclo não acaba antes da nossa condição ser satisfeita.
 
 Na linha 8 temos a nossa condição, `if first_term+second_term > 13`. O código entre o `if` e o `end` só é avaliado caso a nossa condição seja verdadeira. O `break` significa apenas que queremos forçar o ciclo *for* a acabar, não interessa se faltam ciclos ou não, obtendo-se assim o mesmo resultado dos anteriores exemplos.
+
+
+## Vetores
+
+Outra das enormes potencialidades de uma linguagem de programação como *Julia* é a sua capacidade para trabalhar com vetores e matrizes. Continuando com o mesmo exemplo da sequência de fibonacci, não seria melhor, em vez de estarmos sempre a definir valores diferentes para as mesmas variáveis, que tal guardar todos os valores num vetor? Uma sequência pode ser considerado um simples vetor, não? Vamos ver então:
+
+```julia
+fib = [1,1] # primeiro e segundo termos da sequência
+
+while sum(fib[end-1:end]) <= 13
+    push!(fib,sum(fib[end-1:end]))
+end
+display(fib)
+```
+
+Parece mais estranho, mas é muito mais conciso, para além de mais flexível. Usando vetores conseguimos reduzir o número de linhas de código e guardar os dados da sequência, no caso de precisarmos deles. Vamos então esmiufrar este bocado:
+
+Na linha 1 definimos que a nossa variável `fib` é um vetor já com dois valores. O vetor mais simples é simplesmente `var = []` que define a variável como um vetor com zero entradas. 
+
+Na linha 3, na parte `fib[end-1:end]`, temos uma nova sintaxe, que é o que eu gosto de chamar em português de "fatiação", a minha tradução literal do inglês *slicing*. Claro que esta palavra não existe (ou será que existe??) mas refere-se ao facto de podermos utilizar "fatias" de um vetor e criar outro. o que está dentro dos parênteses retos são índices das entradas do vetor, por exemplo, `fib[1]` dá-nos o valor 1 e fib[2] dá-nos o valor 1 também. A entrada `end` representa o índice da última entrada do vetor. 
+
+Na linha 4 temos uma nova função, a função `push!`. Esta função serve para adicionarmos elementos a um vetor existente. Se `var = [1,2,3]`, então `push!(var,4)` tem como resultado `[1,2,3,4]`. Sendo assim estamos a somar os dois últimos valores de `fib` e a adicionar o resultado a `fib`.
+
+**NOTA:** Para quem está familiarizado com *MatLab* e/ou *Python*, *Julia* tem uma pequena mas significativa diferença, quando se define um vetor ele vem em modo coluna e não em modo linha. Em *MatLab*, `[1,2,3] == [1 2 3]`, mas em *Julia* é diferente, porque o primeiro é uma coluna e o segundo é uma linha.
+
+Podemos também resolver este problema com um ciclo *for*:
+
+```julia
+fib = [1,1]
+
+for i = 1:5
+    push!(fib,sum(fib[end-1:end]))
+end
+display(fib)
+```
+
+Usar vetores é uma arma muito poderosa, por isso sempre que possam utilizem, se acharem que for útil, obviamente.
+
+
+## Funções
+
+Este é o último capítulo antes de passarmos aos scripts, e que capítulo é este... Tudo é feito através de funções, funções são os que nos permitem reutilizar código, escrever algo uma vez e nunca mais precisar tocar nele, simplesmente enviar novos argumentos para dentro dela e ter diferentes respostas.
+
+No último exemplo dado, se eu quisesse experimentar o mesmo código várias vezes, com diferentes números de ciclos, teria de copiar, colar no REPL e mudar `for i = 1:5` para `for i = 1:random_number`, e isso é tedioso e consome demasiado tempo. Se colocássemos esse código numa função seria tudo mais simples! Vamos ver:
+
+```julia
+function fibonacci(n)
+    fib = [1,1]
+	for i = 1:n
+	    push!( fib , sum( fib[end-1:end] ) )
+	end
+	return fib
+end
+```
+
+Aqui temos várias coisas para detalhar:
+
+Na linha 1, em `fibonacci(n)` definimos o nome da função (fibonacci) e o nome dos argumentos necessários passar à função para ela fazer o seu trabalho (neste caso é só necessário um, mas se fossem precisos mais bastava separá-los por vírgulas, por exemplo `function fibonacci(arg1,arg2,arg3) end`)
+
+Na linha 6, a sintaxe `return fib` significa que a função, depois de fazer os cálculos, vai-nos devolver o vetor `fib`.
+
+Neste caso, se quisermos fazer cinco cálculos, como nos exemplos anteriores, basta escrever no REPL `fibonacci(5)` e o mesmo resultado aparecer-vos-á.
+
+Até agora nós temos descartado os primeiros dois valores da sequência, por exemplo, se queremos determinar cinco valores, na realidade estamos a determinar sete, visto que os dois primeiros são dados. Imaginando que o nosso objetivo é obter exatamente cinco valores da sequência, temos de alterar o exemplo anterior:
+
+```julia
+function fibonacci(n)
+    fib = [1,1]
+    if n == 1
+	    return fib[1]
+	elseif n == 2
+	    return fib
+    else
+	    for i = 1:n-2
+		    push!( fib , sum(fib[end-1:end]) )
+		end
+		return fib
+	end
+end
+```
+
+Esta já é uma função mais complexa, onde está implementado tudo o que demos até agora, ciclos, condições, vetores e funções.

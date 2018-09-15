@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>index.html</title>
+
+</head>
+
+<body>
+
+<p>Documentação oficial : <em>https://docs.julialang.org/en/v0.6.4/</em></p>
+<p><em>Julia</em> é uma linguagem de programação recente, leve e <em>open-source</em>. Em muito poucas palavras, é uma espécie de junção entre <em>MatLab</em> e <em>Python</em>, juntando a facilidade de cálculo numérico do <em>MatLab</em> com a flexibilidade dos objetos de <em>Python</em>. Esta documentação não supõe bases nenhumas de programação, embora assuma bases de cálculo matricial.</p>
+<h2 id="a-repl-read-eval-print-loop">A REPL (read-eval-print-loop)</h2>
+<p>A REPL é a linha de comandos utilizada em <em>Julia</em>. Nesta linha de comandos é onde fazemos testes, corremos código em separado ou contido num ficheiro.</p>
+<h2 id="variáveis">Variáveis</h2>
+<p>O aspeto mais importante de qualquer linguagem de programação é a variável. Uma variável é algo que nos fornece a possibilidade de reutilizar pedaços de código de uma forma fácil, sejam esses pedaços uma simples linha de código ou 10000. No REPL, definir uma variável é tão simples quanto:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb1-1" data-line-number="1">variable = <span class="fl">1</span></a></code></pre></div>
+<p>Com esta variável definida, podemos fazer inúmeros cálculos com ela:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb2-1" data-line-number="1">variable * <span class="fl">2</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">variable + <span class="fl">3</span>*variable - variable/<span class="fl">2</span></a></code></pre></div>
+<p>Copiem para o REPL (uma linha de cada vez) e vejam os resultados. Como numa função matemática, as variáveis ajudam-nos a criar programas gerais, que se aplicam a vários casos, sem termos de reescrever os programas já feitos.</p>
+<h2 id="recursividade">Recursividade</h2>
+<p>A recursividade é algo muito importante em qualquer linguagem, dá-nos a possibilidade de correr algum código um determinado número de vezes sem termos de o repetir manualmente. Há duas maneiras fazer isto, dependendo dos nossos objetivos, que são os ciclos <em>for</em> e <em>while</em>.</p>
+<h3 id="ciclo-for">Ciclo <em>for</em></h3>
+<p>É o tipo de ciclo mais utilizado, pois é versátil, embora nem seja sempre o mais adequado. Um exemplo muito simples:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">for</span> i = <span class="fl">1</span>:<span class="fl">1</span>:<span class="fl">3</span> </a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    println(i)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">end</span></a></code></pre></div>
+<p>Neste caso, ao dizermos <code>for i = 1:1:3</code>, estamos a dizer que queremos que todo o código entre esta linha e <code>end</code> corra três vezes (<code>1:1:3</code> significa que a variável <code>i</code> irá do 1, de 1 em 1, até ao 3, ou seja, 1, 2 e 3. Se o passo for de 1 em 1, podem omitir o 1 do meio e escrever apenas <code>for i = 1:3</code>). A função <code>println</code> faz com que o que está dentro dos parênteses seja mostrado na linha de comandos. Este exemplo não faz nada de útil, por isso vejamos outro onde tentamos calcular a sequência de fibonacci:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb4-1" data-line-number="1">number_of_calculations = <span class="fl">5</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">first_term = <span class="fl">1</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">second_term = <span class="fl">1</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">for</span> i = <span class="fl">1</span>:number_of_calculations</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">    fib = first_term + second_term</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">    first_term = second_term</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">    second_term = fib</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">    println(fib)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">end</span></a></code></pre></div>
+<p>Com este código podemos ver os primeiros valores da sequência de fibonacci, principalmente os primeiros cinco (sem contar com os dois primeiros que são 1). A implementação de um ciclo <em>for</em> é extremamente simples e flexível, útil numa infinidade de casos.</p>
+<h3 id="ciclo-while">Ciclo <em>while</em></h3>
+<p>O ciclo <em>while</em> é outro exemplo de recursividade mais específico. Neste caso, em vez de especificarmos o número de vezes que se quer correr o código (no exemplo anterior, eram 5), temos de dizer quando é que queremos que <em>while</em> pare. Usaremos o exemplo anterior, mas em vez de um <em>for</em> utilizaremos um <em>while</em>. Para tentarmos replicar exatamente a mesma resposta, temos de saber qual o último valor determinado, que foi 13. Tendo em conta isso, vamos construir o ciclo:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb5-1" data-line-number="1">number_of_calculations = <span class="fl">5</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">first_term = <span class="fl">1</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">second_term = <span class="fl">1</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">while</span> first_term+second_term &lt;= <span class="fl">13</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">    fib = first_term + second_term</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">    first_term = second_term</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">    second_term = fib</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">    println(fib)</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw">end</span></a></code></pre></div>
+<p>Deste modo conseguimos replicar o resultado usando outra forma de escrita. Para resolver este problema ambas as formas são igualmente boas, agora o uso de uma ou outra depende dos dados que pretendem introduzir (se o número de cálculos ou o valor final de cálculo) e do programador em si. Há casos em que uma ou outra são mais simples de utilizar, mas não é obrigatório que utilizem sempre a mais simples, utilizem a que gostam mais, desde que resulte (eu pessoalmente tento evitar os ciclos <em>while</em>, mas é a minha opinião pessoal).</p>
+<h2 id="condições">Condições</h2>
+<p>Esta é uma secção é importantíssima, pois não há forma de as escapar. Todo o programa acaba por precisar de tomar decisões, mas somos nós que temos de lhe indicar que decisões tomar.</p>
+<p>No exemplo anterior do ciclo <em>while</em>, tivemos de tomar uma decisão, quando dizemos que queremos que o código pare de correr quando aquela condição é satisfeita (<code>first_term+second_term &lt;= 13</code>). Se não a tomássemos, o programa correria infinitamente até o forçarmos a parar. Existem três principalmente três timos de cláusulas condicionais, a cláusula <code>case end</code>, <code>try catch end</code> e a <code>if elseif else end</code>. Vamo-nos focar apenas na última.</p>
+<h3 id="cláusulas-if-elseif-else-end">Cláusulas <code>if elseif else end</code></h3>
+<p>É impossível fugir a condições, e a mais versátil e simples é a cláusula <code>if</code>. Funciona praticamente como falamos, se aparecer “x” acontece “y”, senão acontece “z”. Em linguagem de programação ficaria algo assim:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb6-1" data-line-number="1">x = <span class="fl">1</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">if</span> x == <span class="fl">1</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    y = <span class="fl">2</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">else</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    y = <span class="fl">3</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="kw">end</span></a></code></pre></div>
+<p>Obviamente que isto é extremamente simples e não tem utilidade quase nenhuma na vida real, mas um exemplo simples é sempre o melhor para se entender os conceitos básicos.</p>
+<p>Reparem que não há nenhum erro nas igualdades, ter <code>==</code> e <code>=</code> é diferente. <code>==</code> é usado para comparar e <code>=</code> é para definir uma variável. Por exemplo, <code>x == y</code> seria utilizado para comparar os valores de <code>x</code> e <code>y</code>, tendo como resultado verdadeiro ou falso, e <code>x = y</code> faz com que a variável <code>x</code> tenha o mesmo valor que <code>y</code>.</p>
+<p>Agora vamos tentar fazer recriar o ciclo <em>while</em> feito anteriormente utilizando um ciclo <em>for</em> e uma cláusula <em>if</em>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb7-1" data-line-number="1">first_term = <span class="fl">1</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">second_term = <span class="fl">1</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">for</span> i = <span class="fl">1</span>:<span class="fl">10000</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    fib = second_term + first_term</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">    first_term = second_term</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">    second_term = fib</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">    println(fib)</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">    <span class="kw">if</span> first_term+second_term &gt; <span class="fl">13</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">        <span class="kw">break</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">    <span class="kw">end</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="kw">end</span></a></code></pre></div>
+<p>Neste bocado já vemos várias coisas novas, por isso vê-las-emos uma a uma: logo na linha 4, <code>for i = 1:10000</code>, porque um número tão grande? Obviamente era desnecessário, mas teoricamente não sabemos quantos ciclos são necessários para a condição que pusemos se satisfazer, por isso pus um número muito grande para ter a certeza que o ciclo não acaba antes da nossa condição ser satisfeita.</p>
+<p>Na linha 8 temos a nossa condição, <code>if first_term+second_term &gt; 13</code>. O código entre o <code>if</code> e o <code>end</code> só é avaliado caso a nossa condição seja verdadeira. O <code>break</code> significa apenas que queremos forçar o ciclo <em>for</em> a acabar, não interessa se faltam ciclos ou não, obtendo-se assim o mesmo resultado dos anteriores exemplos.</p>
+<h2 id="vetores">Vetores</h2>
+<p>Outra das enormes potencialidades de uma linguagem de programação como <em>Julia</em> é a sua capacidade para trabalhar com vetores e matrizes. Continuando com o mesmo exemplo da sequência de fibonacci, não seria melhor, em vez de estarmos sempre a definir valores diferentes para as mesmas variáveis, que tal guardar todos os valores num vetor? Uma sequência pode ser considerado um simples vetor, não? Vamos ver então:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb8-1" data-line-number="1">fib = [<span class="fl">1</span>,<span class="fl">1</span>] <span class="co"># primeiro e segundo termos da sequência</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">while</span> sum(fib[<span class="kw">end</span>-<span class="fl">1</span>:<span class="kw">end</span>]) &lt;= <span class="fl">13</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">    push!(fib,sum(fib[<span class="kw">end</span>-<span class="fl">1</span>:<span class="kw">end</span>]))</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw">end</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">display(fib)</a></code></pre></div>
+<p>Parece mais estranho, mas é muito mais conciso, para além de mais flexível. Usando vetores conseguimos reduzir o número de linhas de código e guardar os dados da sequência, no caso de precisarmos deles. Vamos então esmiufrar este bocado:</p>
+<p>Na linha 1 definimos que a nossa variável <code>fib</code> é um vetor já com dois valores. O vetor mais simples é simplesmente <code>var = []</code> que define a variável como um vetor com zero entradas.</p>
+<p>Na linha 3, na parte <code>fib[end-1:end]</code>, temos uma nova sintaxe, que é o que eu gosto de chamar em português de “fatiação”, a minha tradução literal do inglês <em>slicing</em>. Claro que esta palavra não existe (ou será que existe??) mas refere-se ao facto de podermos utilizar “fatias” de um vetor e criar outro. o que está dentro dos parênteses retos são índices das entradas do vetor, por exemplo, <code>fib[1]</code> dá-nos o valor 1 e fib[2] dá-nos o valor 1 também. A entrada <code>end</code> representa o índice da última entrada do vetor.</p>
+<p>Na linha 4 temos uma nova função, a função <code>push!</code>. Esta função serve para adicionarmos elementos a um vetor existente. Se <code>var = [1,2,3]</code>, então <code>push!(var,4)</code> tem como resultado <code>[1,2,3,4]</code>. Sendo assim estamos a somar os dois últimos valores de <code>fib</code> e a adicionar o resultado a <code>fib</code>.</p>
+<p><strong>NOTA:</strong> Para quem está familiarizado com <em>MatLab</em> e/ou <em>Python</em>, <em>Julia</em> tem uma pequena mas significativa diferença, quando se define um vetor ele vem em modo coluna e não em modo linha. Em <em>MatLab</em>, <code>[1,2,3] == [1 2 3]</code>, mas em <em>Julia</em> é diferente, porque o primeiro é uma coluna e o segundo é uma linha.</p>
+<p>Podemos também resolver este problema com um ciclo <em>for</em>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb9-1" data-line-number="1">fib = [<span class="fl">1</span>,<span class="fl">1</span>]</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">for</span> i = <span class="fl">1</span>:<span class="fl">5</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">    push!(fib,sum(fib[<span class="kw">end</span>-<span class="fl">1</span>:<span class="kw">end</span>]))</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">end</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">display(fib)</a></code></pre></div>
+<p>Usar vetores é uma arma muito poderosa, por isso sempre que possam utilizem, se acharem que for útil, obviamente.</p>
+<h2 id="funções">Funções</h2>
+<p>Este é o último capítulo antes de passarmos aos scripts, e que capítulo é este… Tudo é feito através de funções, funções são os que nos permitem reutilizar código, escrever algo uma vez e nunca mais precisar tocar nele, simplesmente enviar novos argumentos para dentro dela e ter diferentes respostas.</p>
+<p>No último exemplo dado, se eu quisesse experimentar o mesmo código várias vezes, com diferentes números de ciclos, teria de copiar, colar no REPL e mudar <code>for i = 1:5</code> para <code>for i = 1:random_number</code>, e isso é tedioso e consome demasiado tempo. Se colocássemos esse código numa função seria tudo mais simples! Vamos ver:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">function</span> fibonacci(n)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    fib = [<span class="fl">1</span>,<span class="fl">1</span>]</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="kw">for</span> i = <span class="fl">1</span>:n</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">        push!( fib , sum( fib[<span class="kw">end</span>-<span class="fl">1</span>:<span class="kw">end</span>] ) )</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="kw">end</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="kw">return</span> fib</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="kw">end</span></a></code></pre></div>
+<p>Aqui temos várias coisas para detalhar:</p>
+<p>Na linha 1, em <code>fibonacci(n)</code> definimos o nome da função (fibonacci) e o nome dos argumentos necessários passar à função para ela fazer o seu trabalho (neste caso é só necessário um, mas se fossem precisos mais bastava separá-los por vírgulas, por exemplo <code>function fibonacci(arg1,arg2,arg3) end</code>)</p>
+<p>Na linha 6, a sintaxe <code>return fib</code> significa que a função, depois de fazer os cálculos, vai-nos devolver o vetor <code>fib</code>.</p>
+<p>Neste caso, se quisermos fazer cinco cálculos, como nos exemplos anteriores, basta escrever no REPL <code>fibonacci(5)</code> e o mesmo resultado aparecer-vos-á.</p>
+<p>Até agora nós temos descartado os primeiros dois valores da sequência, por exemplo, se queremos determinar cinco valores, na realidade estamos a determinar sete, visto que os dois primeiros são dados. Imaginando que o nosso objetivo é obter exatamente cinco valores da sequência, temos de alterar o exemplo anterior:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">function</span> fibonacci(n)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">    fib = [<span class="fl">1</span>,<span class="fl">1</span>]</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="kw">if</span> n == <span class="fl">1</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">        <span class="kw">return</span> fib[<span class="fl">1</span>]</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">    <span class="kw">elseif</span> n == <span class="fl">2</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">        <span class="kw">return</span> fib</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">    <span class="kw">else</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">        <span class="kw">for</span> i = <span class="fl">1</span>:n-<span class="fl">2</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">            push!( fib , sum(fib[<span class="kw">end</span>-<span class="fl">1</span>:<span class="kw">end</span>]) )</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">        <span class="kw">end</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">        <span class="kw">return</span> fib</a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">    <span class="kw">end</span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="kw">end</span></a></code></pre></div>
+<p>Esta já é uma função mais complexa, onde está implementado tudo o que demos até agora, ciclos, condições, vetores e funções.</p>
+
+</body>
+</html>
