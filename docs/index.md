@@ -201,15 +201,15 @@ Até agora nós temos descartado os primeiros dois valores da sequência, por ex
 function fibonacci(n)
     fib = [1,1]
     if n == 1
-	    return fib[1]
-	elseif n == 2
-	    return fib
+        return fib[1]
+    elseif n == 2
+        return fib
     else
-	    for i = 1:n-2
-		    push!( fib , sum(fib[end-1:end]) )
-		end
-		return fib
-	end
+        for i = 1:n-2
+            push!( fib , sum(fib[end-1:end]) )
+        end
+        return fib
+    end
 end
 ```
 
