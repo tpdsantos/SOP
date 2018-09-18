@@ -4,7 +4,9 @@ author : Tiago Santos
 date : Criado a 13-09-2018, Atualizado a 14-09-2018
 ---
 
-Documentação oficial : *https://docs.julialang.org/en/v0.6.4/*
+**e-mail :** *tpd.santos@campus.fct.unl.pt*
+
+**Documentação oficial :** *https://docs.julialang.org/en/v0.6.4/*
 
 
 *Julia* é uma linguagem de programação recente, leve e *open-source*. Em muito poucas palavras, é uma espécie de junção entre *MatLab* e *Python*, juntando a facilidade de cálculo numérico do *MatLab* com a flexibilidade dos objetos de *Python*. Esta documentação não supõe bases nenhumas de programação, embora assuma bases de cálculo matricial.
