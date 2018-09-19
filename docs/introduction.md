@@ -54,7 +54,7 @@ Neste caso, ao dizermos `for i = 1:1:3`, estamos a dizer que queremos que todo o
 
 ```julia
 number_of_calculations = 5
-first_term = 1
+first_term = 0
 second_term = 1
 
 for i = 1:number_of_calculations
@@ -74,7 +74,7 @@ O ciclo *while* é outro exemplo de recursividade mais específico. Neste caso, 
 
 ```julia
 number_of_calculations = 5
-first_term = 1
+first_term = 0
 second_term = 1
 
 while first_term+second_term <= 13
@@ -92,7 +92,7 @@ Deste modo conseguimos replicar o resultado usando outra forma de escrita. Para 
 
 Esta é uma secção é importantíssima, pois não há forma de as escapar. Todo o programa acaba por precisar de tomar decisões, mas somos nós que temos de lhe indicar que decisões tomar.
 
-No exemplo anterior do ciclo *while*, tivemos de tomar uma decisão, quando dizemos que queremos que o código pare de correr quando aquela condição é satisfeita (`first_term+second_term <= 13`). Se não a tomássemos, o programa correria infinitamente até o forçarmos a parar. Existem três principalmente três timos de cláusulas condicionais, a cláusula `case end`, `try catch end` e a `if elseif else end`. Vamo-nos focar apenas na última.
+No exemplo anterior do ciclo *while*, tivemos de tomar uma decisão, quando dizemos que queremos que o código pare de correr quando a condição `first_term+second_term <= 13` é satisfeita. Se não a tomássemos, o programa correria infinitamente até o forçarmos a parar. Existem principalmente três tipos de cláusulas condicionais, a cláusula `case end`, `try catch end` e a `if elseif else end`. Vamo-nos focar apenas na última.
 
 
 ### Cláusulas `if elseif else end`
@@ -115,7 +115,7 @@ Reparem que não há nenhum erro nas igualdades, ter `==` e `=` é diferente. `=
 Agora vamos tentar fazer recriar o ciclo *while* feito anteriormente utilizando um ciclo *for* e uma cláusula *if*:
 
 ```julia
-first_term = 1
+first_term = 0
 second_term = 1
 
 for i = 1:10000
@@ -129,17 +129,17 @@ for i = 1:10000
 end
 ```
 
-Neste bocado já vemos várias coisas novas, por isso vê-las-emos uma a uma: logo na linha 4, `for i = 1:10000`, porque um número tão grande? Obviamente era desnecessário, mas teoricamente não sabemos quantos ciclos são necessários para a condição que pusemos se satisfazer, por isso pus um número muito grande para ter a certeza que o ciclo não acaba antes da nossa condição ser satisfeita.
+Neste bocado já vemos várias coisas novas, por isso vê-las-emos uma a uma: logo na linha 4, `for i = 1:10000`, porquê um número tão grande? Obviamente era desnecessário, mas teoricamente não sabemos quantos ciclos são necessários para a condição que pusemos se satisfazer, por isso pus um número muito grande para ter a certeza que o ciclo não acaba antes da nossa condição ser satisfeita.
 
 Na linha 8 temos a nossa condição, `if first_term+second_term > 13`. O código entre o `if` e o `end` só é avaliado caso a nossa condição seja verdadeira. O `break` significa apenas que queremos forçar o ciclo *for* a acabar, não interessa se faltam ciclos ou não, obtendo-se assim o mesmo resultado dos anteriores exemplos.
 
 
 ## Vetores
 
-Outra das enormes potencialidades de uma linguagem de programação como *Julia* é a sua capacidade para trabalhar com vetores e matrizes. Continuando com o mesmo exemplo da sequência de fibonacci, não seria melhor, em vez de estarmos sempre a definir valores diferentes para as mesmas variáveis, que tal guardar todos os valores num vetor? Uma sequência pode ser considerado um simples vetor, não? Vamos ver então:
+Outra das enormes potencialidades de uma linguagem de programação como *Julia* é a sua capacidade para trabalhar com vetores e matrizes. Continuando com o mesmo exemplo da sequência de fibonacci, não seria melhor, em vez de estarmos sempre a definir valores diferentes para as mesmas variáveis, guardar todos os valores num vetor? Uma sequência pode ser considerada um simples vetor, não? Vamos ver então:
 
 ```julia
-fib = [1,1] # primeiro e segundo termos da sequência
+fib = [0,1] # primeiro e segundo termos da sequência
 
 while sum(fib[end-1:end]) <= 13
     push!(fib,sum(fib[end-1:end]))
@@ -151,7 +151,7 @@ Parece mais estranho, mas é muito mais conciso, para além de mais flexível. U
 
 Na linha 1 definimos que a nossa variável `fib` é um vetor já com dois valores. O vetor mais simples é simplesmente `var = []` que define a variável como um vetor com zero entradas. 
 
-Na linha 3, na parte `fib[end-1:end]`, temos uma nova sintaxe, que é o que eu gosto de chamar em português de "fatiação", a minha tradução literal do inglês *slicing*. Claro que esta palavra não existe (ou será que existe??) mas refere-se ao facto de podermos utilizar "fatias" de um vetor e criar outro. o que está dentro dos parênteses retos são índices das entradas do vetor, por exemplo, `fib[1]` dá-nos o valor 1 e fib[2] dá-nos o valor 1 também. A entrada `end` representa o índice da última entrada do vetor. 
+Na linha 3, na parte `fib[end-1:end]`, temos uma nova sintaxe, que é o que eu gosto de chamar em português de "fatiação", a minha tradução literal do inglês *slicing*. Claro que esta palavra não existe (ou será que existe??) mas refere-se ao facto de podermos utilizar "fatias" de um vetor e criar outro. O que está dentro dos parênteses retos são índices das entradas do vetor, por exemplo, `fib[1]` dá-nos o valor 0 e fib[2] dá-nos o valor 1. A entrada `end` representa o índice da última entrada do vetor. 
 
 Na linha 4 temos uma nova função, a função `push!`. Esta função serve para adicionarmos elementos a um vetor existente. Se `var = [1,2,3]`, então `push!(var,4)` tem como resultado `[1,2,3,4]`. Sendo assim estamos a somar os dois últimos valores de `fib` e a adicionar o resultado a `fib`.
 
@@ -160,7 +160,7 @@ Na linha 4 temos uma nova função, a função `push!`. Esta função serve para
 Podemos também resolver este problema com um ciclo *for*:
 
 ```julia
-fib = [1,1]
+fib = [0,1]
 
 for i = 1:5
     push!(fib,sum(fib[end-1:end]))
@@ -179,7 +179,7 @@ No último exemplo dado, se eu quisesse experimentar o mesmo código várias vez
 
 ```julia
 function fibonacci(n)
-    fib = [1,1]
+    fib = [0,1]
 	for i = 1:n
 	    push!( fib , sum( fib[end-1:end] ) )
 	end
@@ -199,7 +199,7 @@ Até agora nós temos descartado os primeiros dois valores da sequência, por ex
 
 ```julia
 function fibonacci(n)
-    fib = [1,1]
+    fib = [0,1]
     if n == 1
         return fib[1]
     elseif n == 2
