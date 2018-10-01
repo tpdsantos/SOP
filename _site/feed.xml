@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-10-01T17:42:57+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Simulação e Otimização de Processos</title><subtitle>Material de apoio das aulas de SOP</subtitle><entry><title type="html">Introdução a Julia</title><link href="http://localhost:4000/2018/09/19/introduction-to-julia.html" rel="alternate" type="text/html" title="Introdução a Julia" /><published>2018-09-19T00:00:00+01:00</published><updated>2018-09-19T00:00:00+01:00</updated><id>http://localhost:4000/2018/09/19/introduction-to-julia</id><content type="html" xml:base="http://localhost:4000/2018/09/19/introduction-to-julia.html">&lt;p&gt;&lt;strong&gt;Documentação oficial :&lt;/strong&gt; &lt;em&gt;https://docs.julialang.org/en/v0.6.4/&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Julia&lt;/em&gt; é uma linguagem de programação recente, leve e &lt;em&gt;open-source&lt;/em&gt;. Em muito poucas palavras, é uma espécie de junção entre &lt;em&gt;MatLab&lt;/em&gt; e &lt;em&gt;Python&lt;/em&gt;, juntando a facilidade de cálculo numérico do &lt;em&gt;MatLab&lt;/em&gt; com a flexibilidade dos objetos de &lt;em&gt;Python&lt;/em&gt;. Esta documentação não supõe bases nenhumas de programação, embora assuma bases de cálculo matricial.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-repl-read-eval-print-loop&quot;&gt;A REPL (read-eval-print-loop)&lt;/h2&gt;
+
+&lt;p&gt;A REPL é a linha de comandos utilizada em &lt;em&gt;Julia&lt;/em&gt;. Nesta linha de comandos é onde fazemos testes, corremos código em separado ou contido num ficheiro.&lt;/p&gt;
+
+&lt;h2 id=&quot;variáveis&quot;&gt;Variáveis&lt;/h2&gt;
+
+&lt;p&gt;O aspeto mais importante de qualquer linguagem de programação é a variável. Uma variável é algo que nos fornece a possibilidade de reutilizar pedaços de código de uma forma fácil, sejam esses pedaços uma simples linha de código ou 10000. No REPL, definir uma variável é tão simples quanto:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;variable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Com esta variável definida, podemos fazer inúmeros cálculos com ela:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;variable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;variable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;variable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Copiem para o REPL (uma linha de cada vez) e vejam os resultados. Como numa função matemática, as variáveis ajudam-nos a criar programas gerais, que se aplicam a vários casos, sem termos de reescrever os programas já feitos.&lt;/p&gt;
+
+&lt;h2 id=&quot;recursividade&quot;&gt;Recursividade&lt;/h2&gt;
+
+&lt;p&gt;A recursividade é algo muito importante em qualquer linguagem, dá-nos a possibilidade de correr algum código um determinado número de vezes sem termos de o repetir manualmente. Há duas maneiras fazer isto, dependendo dos nossos objetivos, que são os ciclos &lt;em&gt;for&lt;/em&gt; e &lt;em&gt;while&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;ciclo-for&quot;&gt;Ciclo &lt;em&gt;for&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;É o tipo de ciclo mais utilizado, pois é versátil, embora nem seja sempre o mais adequado. Um exemplo muito simples:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Neste caso, ao dizermos &lt;code class=&quot;highlighter-rouge&quot;&gt;for i = 1:1:3&lt;/code&gt;, estamos a dizer que queremos que todo o código entre esta linha e &lt;code class=&quot;highlighter-rouge&quot;&gt;end&lt;/code&gt; corra três vezes (&lt;code class=&quot;highlighter-rouge&quot;&gt;1:1:3&lt;/code&gt; significa que a variável &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt; irá do 1, de 1 em 1, até ao 3, ou seja, 1, 2 e 3. Se o passo for de 1 em 1, podem omitir o 1 do meio e escrever apenas &lt;code class=&quot;highlighter-rouge&quot;&gt;for i = 1:3&lt;/code&gt;). A função &lt;code class=&quot;highlighter-rouge&quot;&gt;println&lt;/code&gt; faz com que o que está dentro dos parênteses seja mostrado na linha de comandos. Este exemplo não faz nada de útil, por isso vejamos outro onde tentamos calcular a sequência de fibonacci:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;number_of_calculations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number_of_calculations&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Com este código podemos ver os primeiros valores da sequência de fibonacci, principalmente os primeiros cinco (sem contar com os dois primeiros que são 1). A implementação de um ciclo &lt;em&gt;for&lt;/em&gt; é extremamente simples e flexível, útil numa infinidade de casos.&lt;/p&gt;
+
+&lt;h3 id=&quot;ciclo-while&quot;&gt;Ciclo &lt;em&gt;while&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;O ciclo &lt;em&gt;while&lt;/em&gt; é outro exemplo de recursividade mais específico. Neste caso, em vez de especificarmos o número de vezes que se quer correr o código (no exemplo anterior, eram 5), temos de dizer quando é que queremos que &lt;em&gt;while&lt;/em&gt; pare. Usaremos o exemplo anterior, mas em vez de um &lt;em&gt;for&lt;/em&gt; utilizaremos um &lt;em&gt;while&lt;/em&gt;. Para tentarmos replicar exatamente a mesma resposta, temos de saber qual o último valor determinado, que foi 13. Tendo em conta isso, vamos construir o ciclo:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;number_of_calculations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Deste modo conseguimos replicar o resultado usando outra forma de escrita. Para resolver este problema ambas as formas são igualmente boas, agora o uso de uma ou outra depende dos dados que pretendem introduzir (se o número de cálculos ou o valor final de cálculo) e do programador em si. Há casos em que uma ou outra são mais simples de utilizar, mas não é obrigatório que utilizem sempre a mais simples, utilizem a que gostam mais, desde que resulte (eu pessoalmente tento evitar os ciclos &lt;em&gt;while&lt;/em&gt;, mas é a minha opinião pessoal).&lt;/p&gt;
+
+&lt;h2 id=&quot;condições&quot;&gt;Condições&lt;/h2&gt;
+
+&lt;p&gt;Esta é uma secção é importantíssima, pois não há forma de as escapar. Todo o programa acaba por precisar de tomar decisões, mas somos nós que temos de lhe indicar que decisões tomar.&lt;/p&gt;
+
+&lt;p&gt;No exemplo anterior do ciclo &lt;em&gt;while&lt;/em&gt;, tivemos de tomar uma decisão, quando dizemos que queremos que o código pare de correr quando a condição &lt;code class=&quot;highlighter-rouge&quot;&gt;first_term+second_term &amp;lt;= 13&lt;/code&gt; é satisfeita. Se não a tomássemos, o programa correria infinitamente até o forçarmos a parar. Existem principalmente três tipos de cláusulas condicionais, a cláusula &lt;code class=&quot;highlighter-rouge&quot;&gt;case end&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;try catch end&lt;/code&gt; e a &lt;code class=&quot;highlighter-rouge&quot;&gt;if elseif else end&lt;/code&gt;. Vamo-nos focar apenas na última.&lt;/p&gt;
+
+&lt;h3 id=&quot;cláusulas-if-elseif-else-end&quot;&gt;Cláusulas &lt;code class=&quot;highlighter-rouge&quot;&gt;if elseif else end&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;É impossível fugir a condições, e a mais versátil e simples é a cláusula &lt;code class=&quot;highlighter-rouge&quot;&gt;if&lt;/code&gt;. Funciona praticamente como falamos, se aparecer “x” acontece “y”, senão acontece “z”. Em linguagem de programação ficaria algo assim:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Obviamente que isto é extremamente simples e não tem utilidade quase nenhuma na vida real, mas um exemplo simples é sempre o melhor para se entender os conceitos básicos.&lt;/p&gt;
+
+&lt;p&gt;Reparem que não há nenhum erro nas igualdades, ter &lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt; e &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; é diferente. &lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt; é usado para comparar e &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; é para definir uma variável. Por exemplo, &lt;code class=&quot;highlighter-rouge&quot;&gt;x == y&lt;/code&gt; seria utilizado para comparar os valores de &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; e &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt;, tendo como resultado verdadeiro ou falso, e &lt;code class=&quot;highlighter-rouge&quot;&gt;x = y&lt;/code&gt; faz com que a variável &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; tenha o mesmo valor que &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Agora vamos tentar fazer recriar o ciclo &lt;em&gt;while&lt;/em&gt; feito anteriormente utilizando um ciclo &lt;em&gt;for&lt;/em&gt; e uma cláusula &lt;em&gt;if&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_term&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second_term&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;break&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Neste bocado já vemos várias coisas novas, por isso vê-las-emos uma a uma: logo na linha 4, &lt;code class=&quot;highlighter-rouge&quot;&gt;for i = 1:10000&lt;/code&gt;, porquê um número tão grande? Obviamente era desnecessário, mas teoricamente não sabemos quantos ciclos são necessários para a condição que pusemos se satisfazer, por isso pus um número muito grande para ter a certeza que o ciclo não acaba antes da nossa condição ser satisfeita.&lt;/p&gt;
+
+&lt;p&gt;Na linha 8 temos a nossa condição, &lt;code class=&quot;highlighter-rouge&quot;&gt;if first_term+second_term &amp;gt; 13&lt;/code&gt;. O código entre o &lt;code class=&quot;highlighter-rouge&quot;&gt;if&lt;/code&gt; e o &lt;code class=&quot;highlighter-rouge&quot;&gt;end&lt;/code&gt; só é avaliado caso a nossa condição seja verdadeira. O &lt;code class=&quot;highlighter-rouge&quot;&gt;break&lt;/code&gt; significa apenas que queremos forçar o ciclo &lt;em&gt;for&lt;/em&gt; a acabar, não interessa se faltam ciclos ou não, obtendo-se assim o mesmo resultado dos anteriores exemplos.&lt;/p&gt;
+
+&lt;h2 id=&quot;vetores&quot;&gt;Vetores&lt;/h2&gt;
+
+&lt;p&gt;Outra das enormes potencialidades de uma linguagem de programação como &lt;em&gt;Julia&lt;/em&gt; é a sua capacidade para trabalhar com vetores e matrizes. Continuando com o mesmo exemplo da sequência de fibonacci, não seria melhor, em vez de estarmos sempre a definir valores diferentes para as mesmas variáveis, guardar todos os valores num vetor? Uma sequência pode ser considerada um simples vetor, não? Vamos ver então:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# primeiro e segundo termos da sequência&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;push!&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Parece mais estranho, mas é muito mais conciso, para além de mais flexível. Usando vetores conseguimos reduzir o número de linhas de código e guardar os dados da sequência, no caso de precisarmos deles. Vamos então esmiufrar este bocado:&lt;/p&gt;
+
+&lt;p&gt;Na linha 1 definimos que a nossa variável &lt;code class=&quot;highlighter-rouge&quot;&gt;fib&lt;/code&gt; é um vetor já com dois valores. O vetor mais simples é simplesmente &lt;code class=&quot;highlighter-rouge&quot;&gt;var = []&lt;/code&gt; que define a variável como um vetor com zero entradas.&lt;/p&gt;
+
+&lt;p&gt;Na linha 3, na parte &lt;code class=&quot;highlighter-rouge&quot;&gt;fib[end-1:end]&lt;/code&gt;, temos uma nova sintaxe, que é o que eu gosto de chamar em português de “fatiação”, a minha tradução literal do inglês &lt;em&gt;slicing&lt;/em&gt;. Claro que esta palavra não existe (ou será que existe??) mas refere-se ao facto de podermos utilizar “fatias” de um vetor e criar outro. O que está dentro dos parênteses retos são índices das entradas do vetor, por exemplo, &lt;code class=&quot;highlighter-rouge&quot;&gt;fib[1]&lt;/code&gt; dá-nos o valor 0 e fib[2] dá-nos o valor 1. A entrada &lt;code class=&quot;highlighter-rouge&quot;&gt;end&lt;/code&gt; representa o índice da última entrada do vetor.&lt;/p&gt;
+
+&lt;p&gt;Na linha 4 temos uma nova função, a função &lt;code class=&quot;highlighter-rouge&quot;&gt;push!&lt;/code&gt;. Esta função serve para adicionarmos elementos a um vetor existente. Se &lt;code class=&quot;highlighter-rouge&quot;&gt;var = [1,2,3]&lt;/code&gt;, então &lt;code class=&quot;highlighter-rouge&quot;&gt;push!(var,4)&lt;/code&gt; tem como resultado &lt;code class=&quot;highlighter-rouge&quot;&gt;[1,2,3,4]&lt;/code&gt;. Sendo assim estamos a somar os dois últimos valores de &lt;code class=&quot;highlighter-rouge&quot;&gt;fib&lt;/code&gt; e a adicionar o resultado a &lt;code class=&quot;highlighter-rouge&quot;&gt;fib&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTA:&lt;/strong&gt; Para quem está familiarizado com &lt;em&gt;MatLab&lt;/em&gt; e/ou &lt;em&gt;Python&lt;/em&gt;, &lt;em&gt;Julia&lt;/em&gt; tem uma pequena mas significativa diferença, quando se define um vetor ele vem em modo coluna e não em modo linha. Em &lt;em&gt;MatLab&lt;/em&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;[1,2,3] == [1 2 3]&lt;/code&gt;, mas em &lt;em&gt;Julia&lt;/em&gt; é diferente, porque o primeiro é uma coluna e o segundo é uma linha.&lt;/p&gt;
+
+&lt;p&gt;Podemos também resolver este problema com um ciclo &lt;em&gt;for&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;push!&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Usar vetores é uma arma muito poderosa, por isso sempre que possam utilizem, se acharem que for útil, obviamente.&lt;/p&gt;
+
+&lt;h2 id=&quot;funções&quot;&gt;Funções&lt;/h2&gt;
+
+&lt;p&gt;Este é o último capítulo antes de passarmos aos scripts, e que capítulo é este… Tudo é feito através de funções, funções são os que nos permitem reutilizar código, escrever algo uma vez e nunca mais precisar tocar nele, simplesmente enviar novos argumentos para dentro dela e ter diferentes respostas.&lt;/p&gt;
+
+&lt;p&gt;No último exemplo dado, se eu quisesse experimentar o mesmo código várias vezes, com diferentes números de ciclos, teria de copiar, colar no REPL e mudar &lt;code class=&quot;highlighter-rouge&quot;&gt;for i = 1:5&lt;/code&gt; para &lt;code class=&quot;highlighter-rouge&quot;&gt;for i = 1:random_number&lt;/code&gt;, e isso é tedioso e consome demasiado tempo. Se colocássemos esse código numa função seria tudo mais simples! Vamos ver:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt; fibonacci&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;push!&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Aqui temos várias coisas para detalhar:&lt;/p&gt;
+
+&lt;p&gt;Na linha 1, em &lt;code class=&quot;highlighter-rouge&quot;&gt;fibonacci(n)&lt;/code&gt; definimos o nome da função (fibonacci) e o nome dos argumentos necessários passar à função para ela fazer o seu trabalho (neste caso é só necessário um, mas se fossem precisos mais bastava separá-los por vírgulas, por exemplo &lt;code class=&quot;highlighter-rouge&quot;&gt;function fibonacci(arg1,arg2,arg3) end&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;Na linha 6, a sintaxe &lt;code class=&quot;highlighter-rouge&quot;&gt;return fib&lt;/code&gt; significa que a função, depois de fazer os cálculos, vai-nos devolver o vetor &lt;code class=&quot;highlighter-rouge&quot;&gt;fib&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Neste caso, se quisermos fazer cinco cálculos, como nos exemplos anteriores, basta escrever no REPL &lt;code class=&quot;highlighter-rouge&quot;&gt;fibonacci(5)&lt;/code&gt; e o mesmo resultado aparecer-vos-á.&lt;/p&gt;
+
+&lt;p&gt;Até agora nós temos descartado os primeiros dois valores da sequência, por exemplo, se queremos determinar cinco valores, na realidade estamos a determinar sete, visto que os dois primeiros são dados. Imaginando que o nosso objetivo é obter exatamente cinco valores da sequência, temos de alterar o exemplo anterior:&lt;/p&gt;
+
+&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt; fibonacci&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;push!&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fib&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Esta já é uma função mais complexa, onde está implementado tudo o que demos até agora, ciclos, condições, vetores e funções.&lt;/p&gt;</content><author><name>Tiago Santos</name></author><summary type="html">Documentação oficial : https://docs.julialang.org/en/v0.6.4/</summary></entry></feed>
