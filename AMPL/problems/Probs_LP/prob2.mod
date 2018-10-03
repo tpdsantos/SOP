@@ -37,7 +37,7 @@ param FRAC_CONS:   A      B      C   :=
              F   0.667  0.333    0
              G   0.500  0.167  0.333 ;
 
-param REAG_COST := A 1.5 B 2.0 C 2.5 ;
+param REAG_COST := A 1.5 B 2.0 C 1.5 ;
 
 param AVAIL := A 4000 B 3000 C 2500 ;
 
