@@ -5,6 +5,7 @@
 layout: home
 ---
 
-## Aulas
+# Aulas
 
+Aqui podem ver o material de apoio dos softwares dados nas aulas. As linguagens AMPL e gPROMS não têm realce de sintaxe nas páginas, pedimos desculpa por isso. 
 

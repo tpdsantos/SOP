@@ -5,6 +5,7 @@ creation: 13-09-2018
 update: 21-09-2018
 layout: post
 email: tpd.santos@campus.fct.unl.pt
+software: julia
 ---
 
 **Documentação oficial :** *https://docs.julialang.org/en/v0.6.4/*

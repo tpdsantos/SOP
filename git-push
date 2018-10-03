@@ -1,0 +1,12 @@
+#! /bin/bash
+
+read -p "Enter Commit message" key
+
+awk -i inplace -v INPLACE_SUFFIX=.bak '{if ($1 == "baseurl:") print $1, "\"/SOP\""; else print $0;}' _config.yml
+
+git add .
+
+git commit -m "$key"
+
+git push origin gh-pages
+

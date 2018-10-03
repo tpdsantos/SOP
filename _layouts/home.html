@@ -1,10 +1,17 @@
 ---
 layout: default
-title: "Pagina Inicial"
 ---
 
 {{ content }}
 
-{% for post in site.posts %}
-  <li><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></li>
+{%- assign softs = "Julia,AMPL" | split: ',' -%}
+
+{% for soft in softs %}
+    {%- assign downsoft = soft | downcase -%}
+    <h3><font color="grey">{{soft}}</font></h3>
+    {% for post in site.posts %}
+        {% if post.software == downsoft %}
+            <li><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></li>
+        {% endif %}
+    {% endfor %}
 {% endfor %}
