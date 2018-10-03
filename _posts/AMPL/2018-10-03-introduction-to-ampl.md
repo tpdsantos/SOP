@@ -34,10 +34,31 @@ Nesta secção falaremos nos elementos básicos de AMPL, como conjuntos, variáv
 
 ### Conjuntos
 
-Os conjuntos são a sintaxe mais geral. Um conjunto não é nada mais do que uma sequência de valores para classificar algo. Por exemplo, se temos um problema de otimização em que queremos encontrar o caudal ótimo de entrada de matérias primas numa fábrica, tendo em conta os custos destas, por exemplo, criaríamos um conjunto com todas as matérias primas, como por exemplo:
+Os conjuntos são a sintaxe mais geral e mais utilizada. Um conjunto não é nada mais do que uma sequência de valores para classificar algo. Por exemplo, se temos um problema de otimização em que queremos encontrar o caudal ótimo de entrada de matérias primas numa fábrica, tendo em conta os custos destas, por exemplo, criaríamos um conjunto com todas as matérias primas, como por exemplo:
 
 ```
 set RAWMAT ;
 ```
 
-Desta forma criámos um conjunto de todas as matérias primas que entram na fábrica. Mais tarde daremos valores ao conjunto, por enquanto é geral. Deste modo podemos associar variáveis e/ou parâmetros a esse conjunto, para irmos construindo o problema.
+Desta forma criámos um conjunto, declarado pelo comando `set`, chamado `RAWMAT` que engloba todas as matérias primas que entram na fábrica. Mais tarde daremos valores ao conjunto, por enquanto é geral. Deste modo podemos associar variáveis e/ou parâmetros a esse conjunto, para irmos construindo o problema. Se a ordem é importante, basta escrever `ordered` à frente:
+
+```
+set RAWMAT ordered ;
+```
+
+Visto que queremos otimizar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:
+
+```
+var raw_flow { RAWMAT } >= 0.0 ; 
+```
+
+Nesta sintaxe temos várias nuances. O comando `var` serve para explicitar uma variável e o que está entre chavetas é o conjunto que queremos associar à variável. Não há limite para o número de associações, uma variável ou parâmetro pode estar associado a qualquer número de conjuntos. Suponhamos que cada matéria prima é vendida por fábricas diferentes, podemos fazer isto:
+
+```
+set RAWMAT ;
+set FACTORIES ;
+
+var raw_flow { RAWMAT, FACTORIES } >= 0 ;
+```
+
+Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica vende todas as matérias primas necessárias à nossa fábrica, por exemplo. Ao escrevermos `>= 0` estamos apenas a dizer que a variável não pode tomar valores negativos.

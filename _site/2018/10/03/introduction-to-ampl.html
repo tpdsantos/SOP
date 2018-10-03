@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-10-03T00:00:00+01:00" />
 <script type="application/ld+json">
-{"headline":"Introdução a AMPL","dateModified":"2018-10-03T00:00:00+01:00","datePublished":"2018-10-03T00:00:00+01:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/10/03/introduction-to-ampl.html"},"url":"http://localhost:4000/2018/10/03/introduction-to-ampl.html","author":{"@type":"Person","name":"Tiago Santos"},"description":"Documentação Oficial: a documentação oficial está em formato pdf aqui, basta carregarem nele e clicar em Download no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download.","@context":"http://schema.org"}</script>
+{"@type":"BlogPosting","headline":"Introdução a AMPL","dateModified":"2018-10-03T00:00:00+01:00","datePublished":"2018-10-03T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/10/03/introduction-to-ampl.html"},"url":"http://localhost:4000/2018/10/03/introduction-to-ampl.html","author":{"@type":"Person","name":"Tiago Santos"},"description":"Documentação Oficial: a documentação oficial está em formato pdf aqui, basta carregarem nele e clicar em Download no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download.","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -83,12 +83,30 @@
 
 <h3 id="conjuntos">Conjuntos</h3>
 
-<p>Os conjuntos são a sintaxe mais geral. Um conjunto não é nada mais do que uma sequência de valores para classificar algo. Por exemplo, se temos um problema de otimização em que queremos encontrar o caudal ótimo de entrada de matérias primas numa fábrica, tendo em conta os custos destas, por exemplo, criaríamos um conjunto com todas as matérias primas, como por exemplo:</p>
+<p>Os conjuntos são a sintaxe mais geral e mais utilizada. Um conjunto não é nada mais do que uma sequência de valores para classificar algo. Por exemplo, se temos um problema de otimização em que queremos encontrar o caudal ótimo de entrada de matérias primas numa fábrica, tendo em conta os custos destas, por exemplo, criaríamos um conjunto com todas as matérias primas, como por exemplo:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set RAWMAT ;
 </code></pre></div></div>
 
-<p>Desta forma criámos um conjunto de todas as matérias primas que entram na fábrica. Mais tarde daremos valores ao conjunto, por enquanto é geral. Deste modo podemos associar variáveis e/ou parâmetros a esse conjunto, para irmos construindo o problema.</p>
+<p>Desta forma criámos um conjunto, declarado pelo comando <code class="highlighter-rouge">set</code>, chamado <code class="highlighter-rouge">RAWMAT</code> que engloba todas as matérias primas que entram na fábrica. Mais tarde daremos valores ao conjunto, por enquanto é geral. Deste modo podemos associar variáveis e/ou parâmetros a esse conjunto, para irmos construindo o problema. Se a ordem é importante, basta escrever <code class="highlighter-rouge">ordered</code> à frente:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set RAWMAT ordered ;
+</code></pre></div></div>
+
+<p>Visto que queremos otimizar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var raw_flow { RAWMAT } &gt;= 0.0 ; 
+</code></pre></div></div>
+
+<p>Nesta sintaxe temos várias nuances. O comando <code class="highlighter-rouge">var</code> serve para explicitar uma variável e o que está entre chavetas é o conjunto que queremos associar à variável. Não há limite para o número de associações, uma variável ou parâmetro pode estar associado a qualquer número de conjuntos. Suponhamos que cada matéria prima é vendida por fábricas diferentes, podemos fazer isto:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set RAWMAT ;
+set FACTORIES ;
+
+var raw_flow { RAWMAT, FACTORIES } &gt;= 0 ;
+</code></pre></div></div>
+
+<p>Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica vende todas as matérias primas necessárias à nossa fábrica, por exemplo. Ao escrevermos <code class="highlighter-rouge">&gt;= 0</code> estamos apenas a dizer que a variável não pode tomar valores negativos.</p>
 
 
 <hr>
