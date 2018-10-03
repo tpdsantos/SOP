@@ -2,18 +2,18 @@
 layout: default
 ---
 
-<a href="{{site.baseurl}}">Retomar à página inicial</a>
+<a href="{{site.url}}{{site.baseurl}}">Retomar à página inicial</a>
 
-<h1>{{ page.title }}</h1>
+<h1>{{page.title}}</h1>
 
 <table>
   <tr>
-    <td>Criador</td>
+    <td>Autor</td>
     <td>{{page.author}}</td>
   </tr>
   <tr>
     <td>e-mail</td>
-    <td>{{page.email}}</td>
+    <td><i>{{page.email}}</i></td>
   </tr>
   <tr>
     <td>Data Criação</td>
