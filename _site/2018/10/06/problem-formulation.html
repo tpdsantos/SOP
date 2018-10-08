@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Formular um Problema | Simulação e Otimização de Processos</title>
+<meta name="generator" content="Jekyll v3.8.4" />
+<meta property="og:title" content="Formular um Problema" />
+<meta name="author" content="Tiago Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada." />
+<meta property="og:description" content="Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada." />
+<link rel="canonical" href="http://localhost:4000/2018/10/06/problem-formulation.html" />
+<meta property="og:url" content="http://localhost:4000/2018/10/06/problem-formulation.html" />
+<meta property="og:site_name" content="Simulação e Otimização de Processos" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-06T00:00:00+01:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"Formular um Problema","dateModified":"2018-10-06T00:00:00+01:00","datePublished":"2018-10-06T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/10/06/problem-formulation.html"},"url":"http://localhost:4000/2018/10/06/problem-formulation.html","author":{"@type":"Person","name":"Tiago Santos"},"description":"Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="/assets/css/style.css?v=">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Simulação e Otimização de Processos</h1>
+      <h2 class="project-tagline">Material de apoio das aulas de SOP</h2>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <a href="http://localhost:4000">Retomar à página inicial</a>
+
+<h1>Formular um Problema</h1>
+
+<table>
+  <tr>
+    <td>Autor</td>
+    <td>Tiago Santos</td>
+  </tr>
+  <tr>
+    <td>e-mail</td>
+    <td><i>tpd.santos@campus.fct.unl.pt</i></td>
+  </tr>
+  <tr>
+    <td>Data Criação</td>
+    <td>06-10-2018</td>
+  </tr>
+  <tr>
+    <td>Última Atualização</td>
+    <td>06-10-2018</td>
+  </tr>
+</table>
+
+<hr>
+
+<p>Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.</p>
+
+<h2 id="variáveis-dependentes">Variáveis dependentes</h2>
+
+<p>Na secção anterior aprendemos a declarar variáveis, mais especificamente variáveis independentes (VI). Variáveis dependentes (VD) e independentes funcionam exatamente da mesma forma que numa função. Uma VI é livremente modificada pelo AMPL para atingir o objetivo. Uma VD é dependente do valor das VI, sendo apenas modificada quando a VI é modificada. A sintaxe é muito simples, quase como escrever uma função:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var dependent_var = ... 
+</code></pre></div></div>
+
+<p>Em que os <code class="highlighter-rouge">...</code> representam qualquer equação ou fórmula que dependa da/s VI.</p>
+
+<p>As VD servem principalmente para simplificar e tornar legível fórmulas e modelos mais complexos, com muitos termos e dependentes de muitas variáveis.</p>
+
+<h2 id="restrições">Restrições</h2>
+
+<p>As restrições são muito importantes em AMPL. Como o nome indica, são maneiras de escrever restriçṍes ao nosss problema, mas tem várias peculiaridades para nos facilitar a vida, por isso vamos abordar as mais usadas. A sintaxe mais simples:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s.t. restriction_name : something = solmething_else ;
+# or
+subject to restriction_name : something = something_else ;
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">something</code> e <code class="highlighter-rouge">something_else</code> podem ser qualquer tipo de fórmula ou equação, podem envolver VI, VD e parâmetros. Onde está <code class="highlighter-rouge">=</code> pode estar <code class="highlighter-rouge">&lt; &gt; &lt;= &gt;=</code>. Algo a notar é que, ao contrário de <em>Julia</em>, o termo à esquerda do símbolo de comparação não é necessário que seja apenas uma variável, podemos ter expressões complexas em ambos os lados do símbolo.</p>
+
+<p>Muitas das vezes nós temos variáveis associadas a conjuntos, e normalmente queremos restrições para todas as associações das variáveis. Por exemplo, tendo um conjunto de matérias primas e tendo uma variável que é o caudal das matérias primas, queremos determinar o caudal ótimo de matérias primas sabendo que existe um limite máximo de venda de matérias primas por dia. Uma restrição que descreveria este exemplo seria:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set RAWMAT ;
+
+var raw_flow { RAWMAT } ;
+
+param raw_max { RAWMAT } ;
+
+s.t. max_raw {r in RAWMAT} : raw_flow[r] &lt;= raw_max[r] ;
+</code></pre></div></div>
+
+
+
+<hr>
+
+<a href="http://localhost:4000">Retomar à página inicial</a>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>

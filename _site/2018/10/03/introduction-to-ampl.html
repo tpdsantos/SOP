@@ -9,15 +9,15 @@
 <meta property="og:title" content="Introdução a AMPL" />
 <meta name="author" content="Tiago Santos" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Documentação Oficial: a documentação oficial está em formato pdf aqui, basta carregarem nele e clicar em Download no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download." />
-<meta property="og:description" content="Documentação Oficial: a documentação oficial está em formato pdf aqui, basta carregarem nele e clicar em Download no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download." />
+<meta name="description" content="Premissa da linguagem" />
+<meta property="og:description" content="Premissa da linguagem" />
 <link rel="canonical" href="http://localhost:4000/2018/10/03/introduction-to-ampl.html" />
 <meta property="og:url" content="http://localhost:4000/2018/10/03/introduction-to-ampl.html" />
 <meta property="og:site_name" content="Simulação e Otimização de Processos" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-10-03T00:00:00+01:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","headline":"Introdução a AMPL","dateModified":"2018-10-03T00:00:00+01:00","datePublished":"2018-10-03T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/10/03/introduction-to-ampl.html"},"url":"http://localhost:4000/2018/10/03/introduction-to-ampl.html","author":{"@type":"Person","name":"Tiago Santos"},"description":"Documentação Oficial: a documentação oficial está em formato pdf aqui, basta carregarem nele e clicar em Download no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download.","@context":"http://schema.org"}</script>
+{"@type":"BlogPosting","headline":"Introdução a AMPL","dateModified":"2018-10-03T00:00:00+01:00","datePublished":"2018-10-03T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/10/03/introduction-to-ampl.html"},"url":"http://localhost:4000/2018/10/03/introduction-to-ampl.html","author":{"@type":"Person","name":"Tiago Santos"},"description":"Premissa da linguagem","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,14 +51,12 @@
     <td>03-10-2018</td>
   </tr>
   <tr>
-    <td>Data Atualização</td>
-    <td>03-10-2018</td>
+    <td>Última Atualização</td>
+    <td>06-10-2018</td>
   </tr>
 </table>
 
 <hr>
-
-<p><strong>Documentação Oficial:</strong> a documentação oficial está em formato pdf <a href="https://github.com/tpdsantos/SOP/tree/master/AMPL/docs">aqui</a>, basta carregarem nele e clicar em <em>Download</em> no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download.</p>
 
 <h2 id="premissa-da-linguagem">Premissa da linguagem</h2>
 
@@ -93,7 +91,9 @@
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set RAWMAT ordered ;
 </code></pre></div></div>
 
-<p>Visto que queremos otimizar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:</p>
+<h3 id="variáveis">Variáveis</h3>
+
+<p>Visto que queremos achar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var raw_flow { RAWMAT } &gt;= 0.0 ; 
 </code></pre></div></div>
@@ -106,7 +106,38 @@ set FACTORIES ;
 var raw_flow { RAWMAT, FACTORIES } &gt;= 0 ;
 </code></pre></div></div>
 
-<p>Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica vende todas as matérias primas necessárias à nossa fábrica, por exemplo. Ao escrevermos <code class="highlighter-rouge">&gt;= 0</code> estamos apenas a dizer que a variável não pode tomar valores negativos.</p>
+<p>Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica (as colunas da matriz) vende todas as matérias primas (as linhas da matriz) necessárias à nossa fábrica, por exemplo. Ao escrevermos <code class="highlighter-rouge">&gt;= 0</code> estamos apenas a dizer que a variável não pode tomar valores negativos.</p>
+
+<h3 id="parâmetros">Parâmetros</h3>
+
+<p>Parâmetros são constantes durante todo o programa. Podem ser rendimentos de reações, custos de matérias prima, custos de operação, etc. Para definir um basta:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>param RAW_COST { RAWMAT } &gt;= 0 ;
+</code></pre></div></div>
+
+<p>Assim ficou definido um parâmetro que engloba os custos das matérias primas.</p>
+
+<h3 id="tipos">Tipos</h3>
+
+<p>A maior parte das variáveis e parâmetros são reais, podem tomar qualquer valor decimal. No entanto, algumas vezes queremos definir variáveis apenas como inteiras ou binárias. Para definirmos como inteiras:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var raw_flow { RAWMAT, FACTORIES } &gt;= 0 integer ;
+param RAW_COST { RAWMAT } &gt;= 0 integer ;
+</code></pre></div></div>
+
+<p>Assim estas instâncias apenas podem tomar valores inteiros.</p>
+
+<p>No caso de valores binários, quase sempre são utilizados apenas em variáveis, as chamadas variáveis de decisão. Suponhamos que temos vários equipamentos disponíveis numa fábrica, cada um com um tempo de trabalho e limpeza diferentes, com unidades em meses. Como maximizar o lucro anual sabendo que a disponibilidade dos equipamentos varia em cada mês? Com este problema podemos utilizar as variáveis binárias:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set EQUIPS ;
+set MONTHS ;
+
+var avail_equip { EQUIPS, MONTH } binary ; # avail de availability
+</code></pre></div></div>
+
+<p>Desta forma podemos “ligar” e/ou “desligar” equipamentos em cada mês, visto que uma variável binária, como o nome indica, só pode tomar os valores 0 ou 1.</p>
+
+<p>Assim acaba esta secção. Na próxima falaremos em como criar um problema.</p>
 
 
 <hr>

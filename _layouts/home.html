@@ -8,7 +8,7 @@ layout: default
 
 {% for soft in softs %}
     {%- assign downsoft = soft | downcase -%}
-    <h3><font color="grey">{{soft}}</font></h3>
+    <h2><font color="grey">{{soft}}</font></h2>
     {% for post in site.posts %}
         {% if post.software == downsoft %}
             <li><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></li>

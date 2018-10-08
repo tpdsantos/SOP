@@ -1,6 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-10-03T19:24:31+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Simulação e Otimização de Processos</title><subtitle>Material de apoio das aulas de SOP</subtitle><entry><title type="html">Introdução a AMPL</title><link href="http://localhost:4000/2018/10/03/introduction-to-ampl.html" rel="alternate" type="text/html" title="Introdução a AMPL" /><published>2018-10-03T00:00:00+01:00</published><updated>2018-10-03T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/03/introduction-to-ampl</id><content type="html" xml:base="http://localhost:4000/2018/10/03/introduction-to-ampl.html">&lt;p&gt;&lt;strong&gt;Documentação Oficial:&lt;/strong&gt; a documentação oficial está em formato pdf &lt;a href=&quot;https://github.com/tpdsantos/SOP/tree/master/AMPL/docs&quot;&gt;aqui&lt;/a&gt;, basta carregarem nele e clicar em &lt;em&gt;Download&lt;/em&gt; no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-10-06T14:03:58+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Simulação e Otimização de Processos</title><subtitle>Material de apoio das aulas de SOP</subtitle><entry><title type="html">Formular um Problema</title><link href="http://localhost:4000/2018/10/06/problem-formulation.html" rel="alternate" type="text/html" title="Formular um Problema" /><published>2018-10-06T00:00:00+01:00</published><updated>2018-10-06T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/06/problem-formulation</id><content type="html" xml:base="http://localhost:4000/2018/10/06/problem-formulation.html">&lt;p&gt;Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.&lt;/p&gt;
 
-&lt;h2 id=&quot;premissa-da-linguagem&quot;&gt;Premissa da linguagem&lt;/h2&gt;
+&lt;h2 id=&quot;variáveis-dependentes&quot;&gt;Variáveis dependentes&lt;/h2&gt;
+
+&lt;p&gt;Na secção anterior aprendemos a declarar variáveis, mais especificamente variáveis independentes (VI). Variáveis dependentes (VD) e independentes funcionam exatamente da mesma forma que numa função. Uma VI é livremente modificada pelo AMPL para atingir o objetivo. Uma VD é dependente do valor das VI, sendo apenas modificada quando a VI é modificada. A sintaxe é muito simples, quase como escrever uma função:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var dependent_var = ... 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Em que os &lt;code class=&quot;highlighter-rouge&quot;&gt;...&lt;/code&gt; representam qualquer equação ou fórmula que dependa da/s VI.&lt;/p&gt;
+
+&lt;p&gt;As VD servem principalmente para simplificar e tornar legível fórmulas e modelos mais complexos, com muitos termos e dependentes de muitas variáveis.&lt;/p&gt;
+
+&lt;h2 id=&quot;restrições&quot;&gt;Restrições&lt;/h2&gt;
+
+&lt;p&gt;As restrições são muito importantes em AMPL. Como o nome indica, são maneiras de escrever restriçṍes ao nosss problema, mas tem várias peculiaridades para nos facilitar a vida, por isso vamos abordar as mais usadas. A sintaxe mais simples:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;s.t. restriction_name : something = solmething_else ;
+# or
+subject to restriction_name : something = something_else ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;something&lt;/code&gt; e &lt;code class=&quot;highlighter-rouge&quot;&gt;something_else&lt;/code&gt; podem ser qualquer tipo de fórmula ou equação, podem envolver VI, VD e parâmetros. Onde está &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; pode estar &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt; &amp;gt; &amp;lt;= &amp;gt;=&lt;/code&gt;. Algo a notar é que, ao contrário de &lt;em&gt;Julia&lt;/em&gt;, o termo à esquerda do símbolo de comparação não é necessário que seja apenas uma variável, podemos ter expressões complexas em ambos os lados do símbolo.&lt;/p&gt;
+
+&lt;p&gt;Muitas das vezes nós temos variáveis associadas a conjuntos, e normalmente queremos restrições para todas as associações das variáveis. Por exemplo, tendo um conjunto de matérias primas e tendo uma variável que é o caudal das matérias primas, queremos determinar o caudal ótimo de matérias primas sabendo que existe um limite máximo de venda de matérias primas por dia. Uma restrição que descreveria este exemplo seria:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set RAWMAT ;
+
+var raw_flow { RAWMAT } ;
+
+param raw_max { RAWMAT } ;
+
+s.t. max_raw {r in RAWMAT} : raw_flow[r] &amp;lt;= raw_max[r] ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Tiago Santos</name></author><summary type="html">Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.</summary></entry><entry><title type="html">Introdução a AMPL</title><link href="http://localhost:4000/2018/10/03/introduction-to-ampl.html" rel="alternate" type="text/html" title="Introdução a AMPL" /><published>2018-10-03T00:00:00+01:00</published><updated>2018-10-03T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/03/introduction-to-ampl</id><content type="html" xml:base="http://localhost:4000/2018/10/03/introduction-to-ampl.html">&lt;h2 id=&quot;premissa-da-linguagem&quot;&gt;Premissa da linguagem&lt;/h2&gt;
 
 &lt;p&gt;A linguagem AMPL é bastante distinta das outras linguagens mais populares no que toca à sua premissa principal. Ela não foi criada para ser flexível nem para ser versátil, foi criada para resolver um determinado tipo de problemas da forma mais eficiente e rápida possível, e faz exatamente isso, sacrificando a versatilidade.&lt;/p&gt;
 
@@ -33,7 +64,9 @@
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set RAWMAT ordered ;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Visto que queremos otimizar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:&lt;/p&gt;
+&lt;h3 id=&quot;variáveis&quot;&gt;Variáveis&lt;/h3&gt;
+
+&lt;p&gt;Visto que queremos achar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var raw_flow { RAWMAT } &amp;gt;= 0.0 ; 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -46,7 +79,38 @@ set FACTORIES ;
 var raw_flow { RAWMAT, FACTORIES } &amp;gt;= 0 ;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica vende todas as matérias primas necessárias à nossa fábrica, por exemplo. Ao escrevermos &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;= 0&lt;/code&gt; estamos apenas a dizer que a variável não pode tomar valores negativos.&lt;/p&gt;</content><author><name>Tiago Santos</name></author><summary type="html">Documentação Oficial: a documentação oficial está em formato pdf aqui, basta carregarem nele e clicar em Download no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download.</summary></entry><entry><title type="html">Introdução a Julia</title><link href="http://localhost:4000/2018/09/19/introduction-to-julia.html" rel="alternate" type="text/html" title="Introdução a Julia" /><published>2018-09-19T00:00:00+01:00</published><updated>2018-09-19T00:00:00+01:00</updated><id>http://localhost:4000/2018/09/19/introduction-to-julia</id><content type="html" xml:base="http://localhost:4000/2018/09/19/introduction-to-julia.html">&lt;p&gt;&lt;strong&gt;Documentação oficial :&lt;/strong&gt; &lt;em&gt;https://docs.julialang.org/en/v0.6.4/&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica (as colunas da matriz) vende todas as matérias primas (as linhas da matriz) necessárias à nossa fábrica, por exemplo. Ao escrevermos &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;= 0&lt;/code&gt; estamos apenas a dizer que a variável não pode tomar valores negativos.&lt;/p&gt;
+
+&lt;h3 id=&quot;parâmetros&quot;&gt;Parâmetros&lt;/h3&gt;
+
+&lt;p&gt;Parâmetros são constantes durante todo o programa. Podem ser rendimentos de reações, custos de matérias prima, custos de operação, etc. Para definir um basta:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;param RAW_COST { RAWMAT } &amp;gt;= 0 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Assim ficou definido um parâmetro que engloba os custos das matérias primas.&lt;/p&gt;
+
+&lt;h3 id=&quot;tipos&quot;&gt;Tipos&lt;/h3&gt;
+
+&lt;p&gt;A maior parte das variáveis e parâmetros são reais, podem tomar qualquer valor decimal. No entanto, algumas vezes queremos definir variáveis apenas como inteiras ou binárias. Para definirmos como inteiras:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var raw_flow { RAWMAT, FACTORIES } &amp;gt;= 0 integer ;
+param RAW_COST { RAWMAT } &amp;gt;= 0 integer ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Assim estas instâncias apenas podem tomar valores inteiros.&lt;/p&gt;
+
+&lt;p&gt;No caso de valores binários, quase sempre são utilizados apenas em variáveis, as chamadas variáveis de decisão. Suponhamos que temos vários equipamentos disponíveis numa fábrica, cada um com um tempo de trabalho e limpeza diferentes, com unidades em meses. Como maximizar o lucro anual sabendo que a disponibilidade dos equipamentos varia em cada mês? Com este problema podemos utilizar as variáveis binárias:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set EQUIPS ;
+set MONTHS ;
+
+var avail_equip { EQUIPS, MONTH } binary ; # avail de availability
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Desta forma podemos “ligar” e/ou “desligar” equipamentos em cada mês, visto que uma variável binária, como o nome indica, só pode tomar os valores 0 ou 1.&lt;/p&gt;
+
+&lt;p&gt;Assim acaba esta secção. Na próxima falaremos em como criar um problema.&lt;/p&gt;</content><author><name>Tiago Santos</name></author><summary type="html">Premissa da linguagem</summary></entry><entry><title type="html">Introdução a Julia</title><link href="http://localhost:4000/2018/09/19/introduction-to-julia.html" rel="alternate" type="text/html" title="Introdução a Julia" /><published>2018-09-19T00:00:00+01:00</published><updated>2018-09-19T00:00:00+01:00</updated><id>http://localhost:4000/2018/09/19/introduction-to-julia</id><content type="html" xml:base="http://localhost:4000/2018/09/19/introduction-to-julia.html">&lt;p&gt;&lt;strong&gt;Documentação oficial :&lt;/strong&gt; &lt;em&gt;https://docs.julialang.org/en/v0.6.4/&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Julia&lt;/em&gt; é uma linguagem de programação recente, leve e &lt;em&gt;open-source&lt;/em&gt;. Em muito poucas palavras, é uma espécie de junção entre &lt;em&gt;MatLab&lt;/em&gt; e &lt;em&gt;Python&lt;/em&gt;, juntando a facilidade de cálculo numérico do &lt;em&gt;MatLab&lt;/em&gt; com a flexibilidade dos objetos de &lt;em&gt;Python&lt;/em&gt;. Esta documentação não supõe bases nenhumas de programação, embora assuma bases de cálculo matricial.&lt;/p&gt;
 

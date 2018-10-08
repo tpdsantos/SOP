@@ -3,12 +3,10 @@ layout: post
 title: Introdução a AMPL
 author: Tiago Santos
 creation: 03-10-2018
-update: 03-10-2018
+update: 06-10-2018
 email: tpd.santos@campus.fct.unl.pt
 software: ampl
 ---
-
-**Documentação Oficial:** a documentação oficial está em formato pdf <a href="https://github.com/tpdsantos/SOP/tree/master/AMPL/docs">aqui</a>, basta carregarem nele e clicar em *Download* no canto superior direito do ficheiro. O ficheiro é relativamente grande, não se admirem se demorar um bocado de tempo, tanto a carregar como a fazer o download.
 
 
 ## Premissa da linguagem
@@ -46,7 +44,10 @@ Desta forma criámos um conjunto, declarado pelo comando `set`, chamado `RAWMAT`
 set RAWMAT ordered ;
 ```
 
-Visto que queremos otimizar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:
+
+### Variáveis
+
+Visto que queremos achar o caudal ótimo de matérias primas, temos de criar uma variável associada ao conjunto das matérias primas:
 
 ```
 var raw_flow { RAWMAT } >= 0.0 ; 
@@ -61,4 +62,40 @@ set FACTORIES ;
 var raw_flow { RAWMAT, FACTORIES } >= 0 ;
 ```
 
-Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica vende todas as matérias primas necessárias à nossa fábrica, por exemplo. Ao escrevermos `>= 0` estamos apenas a dizer que a variável não pode tomar valores negativos.
+Neste caso criámos uma variável associada a cada matéria prima e a cada fábrica. Outra maneira de explicar isto é pensando em matrizes: uma variável associada a dois conjuntos é idêntica a uma matriz com duas dimensões, em que cada fábrica (as colunas da matriz) vende todas as matérias primas (as linhas da matriz) necessárias à nossa fábrica, por exemplo. Ao escrevermos `>= 0` estamos apenas a dizer que a variável não pode tomar valores negativos.
+
+
+### Parâmetros
+
+Parâmetros são constantes durante todo o programa. Podem ser rendimentos de reações, custos de matérias prima, custos de operação, etc. Para definir um basta:
+
+```
+param RAW_COST { RAWMAT } >= 0 ;
+```
+
+Assim ficou definido um parâmetro que engloba os custos das matérias primas.
+
+
+### Tipos
+
+A maior parte das variáveis e parâmetros são reais, podem tomar qualquer valor decimal. No entanto, algumas vezes queremos definir variáveis apenas como inteiras ou binárias. Para definirmos como inteiras:
+
+```
+var raw_flow { RAWMAT, FACTORIES } >= 0 integer ;
+param RAW_COST { RAWMAT } >= 0 integer ;
+```
+
+Assim estas instâncias apenas podem tomar valores inteiros.
+
+No caso de valores binários, quase sempre são utilizados apenas em variáveis, as chamadas variáveis de decisão. Suponhamos que temos vários equipamentos disponíveis numa fábrica, cada um com um tempo de trabalho e limpeza diferentes, com unidades em meses. Como maximizar o lucro anual sabendo que a disponibilidade dos equipamentos varia em cada mês? Com este problema podemos utilizar as variáveis binárias:
+
+```
+set EQUIPS ;
+set MONTHS ;
+
+var avail_equip { EQUIPS, MONTH } binary ; # avail de availability
+```
+
+Desta forma podemos "ligar" e/ou "desligar" equipamentos em cada mês, visto que uma variável binária, como o nome indica, só pode tomar os valores 0 ou 1.
+
+Assim acaba esta secção. Na próxima falaremos em como criar um problema.
