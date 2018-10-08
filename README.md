@@ -24,7 +24,7 @@ Depois de descarregar e instalar:
 4. escolher diretório onde copiar o repositório. Caso seja no ambiente de trabalho\*, `cd ~/Desktop/`
 5. escrever `git pull origin master`
 
-\* - o símbolo `~` representa o diretório do utilizador. Em Windows é `C:/Users/username/`.
+\* - o símbolo `~` representa o diretório do utilizador. Em Windows é `C:/Users/username/`, MacOs é `/Users/username/` e em Linux é `/home/username/`.
 
 Depois de fazer isto uma vez, sempre que quiserem aceder à pasta e atualizá-la basta fazerem os passos 1, 4 e 5.
 
