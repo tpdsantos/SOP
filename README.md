@@ -16,11 +16,15 @@ Quando entram na [página Github](https://github.com/tpdsantos/SOP), encontram u
 
 O cliente [Git](https://git-scm.com/downloads) é a ferramenta mais utlizada no mundo do Github. Permite-nos criar cópias remotas dos repositórios que queremos seguir e mantê-los sempre atualizados. O seu potencial é maximizado quando se utilza a linha de comandos, mas como queremos fazer coisas muito simples não será necessário, utilizaremos apenas a interface gráfica. 
 
-Depois de descarregar e instalar, procurem no vosso sistema por `git gui` e encontrarão um executável. Ao abrir aparecerá uma janela que vos pergunta por três opções, a que querem é a que fala em clonar um novo repositório, cliquem. Na janela que aparece terão de pôr o link do repositório, insiram este link `https://github.com/tpdsantos/SOP.git` na primeira caixa e na segunda metem o diretório onde querem que esse repositório seja copiado
-
 Depois de descarregar e instalar:
 
-- procurar no vosso sistema por `git gui` e abrir o executável
-- na janela que aparece, escolher a opção de clonar um repositório
-- na caixa de texto superior inserir este link `https://github.com/tpdsantos/SOP.git`
-- na caixa de texto inferior inserir o diretório para inde querem que os ficheiros sejam copiados
+1. procurar no vosso sistema por `git cmd` e abrir o executável
+2. configurar git com um nome qualquer `git config --global user.name "Your Name"`
+3. configurar git com um email qualquer `git config --global user.email "your@email.com"`
+4. escolher diretório onde copiar o repositório. Caso seja no ambiente de trabalho\*, `cd ~/Desktop/`
+5. escrever `git pull origin master`
+
+\* - o símbolo `~` representa o diretório do utilizador. Em Windows é `C:/Users/username/`
+Depois de fazer isto uma vez, sempre que quiserem aceder à pasta e atualizá-la basta fazerem os passos 1, 4 e 5.
+
+Provavelmente, de uns anos para os outros, ficará cada vez mais estável e provavelmente será aconselhável utilizar o modo zip, mas por enquanto é melhor utilizar o cliente *Git* para terem a certeza que nunca vos falta nada.
