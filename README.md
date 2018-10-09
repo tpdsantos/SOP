@@ -14,7 +14,7 @@ Quando entram na [página Github](https://github.com/tpdsantos/SOP), encontram u
 
 ## Descarregar o cliente *Git*
 
-O cliente [Git](https://git-scm.com/downloads) é a ferramenta mais utlizada no mundo do Github. Permite-nos criar cópias remotas dos repositórios que queremos seguir e mantê-los sempre atualizados. O seu potencial é maximizado quando se utilza a linha de comandos, mas como queremos fazer coisas muito simples não será necessário, utilizaremos apenas a interface gráfica. 
+O cliente [Git](https://git-scm.com/downloads) é a ferramenta mais utlizada no mundo do Github. Permite-nos criar cópias remotas dos repositórios que queremos seguir e mantê-los sempre atualizados. O seu potencial é maximizado quando se utiliza a linha de comandos, e é isso que vamos tentar fazer.
 
 Depois de descarregar e instalar:
 
