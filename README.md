@@ -2,7 +2,7 @@
 
 Neste repositório situa-se todo o material utilizado nas aulas de SOP. 
 
-O repositório está separado nas linguagens de programação dadas. Cada linguagem tem duas pastas: a pasta `docs` (de documentação) e a pasta `probs` (de problemas). A pasta `probs` está dividida em pastas cujos nomes são iguais às folhas de exercícios. Dentro dessas pastas estão algumas resoluções dos exercícios, dependendo do objetivo desses exercícios.
+O repositório está separado nas linguagens de programação dadas. Cada linguagem tem duas pastas: a pasta `docs` (de documentação) e a pasta `problems`. A pasta `problems` está dividida em pastas cujos nomes são iguais às folhas de exercícios. Dentro dessas pastas estão algumas resoluções dos exercícios, dependendo do objetivo desses exercícios.
 
 Nós decidimos utilizar o Github porque, com alguma prática, é muito mais cómodo e simples que utilizar o Clip (e rápido). Há duas maneiras de utilizar o Github:
 
