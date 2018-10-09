@@ -8,8 +8,8 @@ param PROD_COST { CRUDES         } >= 0 ;
 param SALES     {          PRODS } >= 0 ;
 param MAX_PROD  {          PRODS } >= 0 ;
 
-var crude{CRUDES} >= 0 ;
-var prod{PRODS} >= 0 ;
+var crude { CRUDES         } >= 0 ;
+var prod  {          PRODS } >= 0 ;
 
 s.t. prod_calc {p in PRODS} : prod[p] = sum{c in CRUDES} (crude[c]*REND[c,p]/100) ;
 
@@ -42,6 +42,7 @@ param REND: Gas Que Fuel Res :=
 
 option solver "/home/tsantos/SOFTWARES/AMPL-lang/cplex" ;
 solve;
+
 display profit ;
 display {c in CRUDES} crude[c] ;
-display {p in PRODS} prod[p] ;
+display {p in PRODS}  prod[p] ;
