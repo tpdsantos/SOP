@@ -40,7 +40,7 @@ param REND: Gas Que Fuel Res :=
 
 ################################
 
-option solver "/home/tsantos/SOFTWARES/AMPL-lang/cplex" ;
+option solver "cplex" ;
 solve;
 
 display profit ;
