@@ -3,7 +3,7 @@ layout: post
 title: Formular um Problema
 author: Tiago Santos
 creation: 06-10-2018
-update: 06-10-2018
+update: 12-10-2018
 email: tpd.santos@campus.fct.unl.pt
 software: ampl
 ---
@@ -48,4 +48,36 @@ param raw_max { RAWMAT } ;
 s.t. max_raw {r in RAWMAT} : raw_flow[r] <= raw_max[r] ;
 ```
 
+Com esta restrição estamos a construir uma espécie de ciclo *for*, em que o `r` representa cada matéria prima.
 
+
+## A função `sum`
+
+A função `sum` é bastante importante e utilizada, por isso merece uma secção independente. Em muitos problemas de otimização precisamos de somar parâmetros, variáveis ou a junção dos dois. Vamos ver a sintaxe com um exemplo. Tendo em conta tudo o que vimos até agora, vamos acrescentar um parâmetro, a quantidade de quilos de cada matéria prima necessária para criar um quilo de produto, assumindo que só há um produto:
+
+```
+set RAWMAT ;
+
+param FRAC_RAW { RAWMAT } >= 0 ;
+
+var raw_flow { RAWMAT } >= 0 ;
+
+var prod = sum {r in RAWMAT} ( FRAC_RAW[r] * raw_flow[r] ) ;
+```
+
+A sintaxe de `sum` é idêntica a todos os outros comandos: dentro das chavetas metemos o conjunto que queremos somar e à frente a expressão que cada valor, a somar, vai tomar.
+
+
+## O comando `maximize` e `minimize`
+
+Depois do problema ser formulado, precisamos de dizer ao AMPL o que otimizar. Queremos maximizar um lucro ou um rendimento? Queremos minimizar a soma dos erros quadráticos de uma experiência ou o tempo de operação de um processo? Podemos utilizar um dos dois comandos para fazer exatamente isso:
+
+```
+maximize profit : sales - costs ;
+# or
+minimize square_errors : expression_to_be_minimized ;
+```
+
+Nestes comandos não se pode utilizar chavetas, só se pode dar expressões que dêm origem a um único valor.
+
+Na proxima secção falaremos como transmitir os dados específicos de cada problema para o AMPL.
