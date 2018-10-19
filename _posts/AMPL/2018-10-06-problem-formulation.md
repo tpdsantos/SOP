@@ -3,7 +3,7 @@ layout: post
 title: Formular um Problema
 author: Tiago Santos
 creation: 06-10-2018
-update: 12-10-2018
+update: 15-10-2018
 email: tpd.santos@campus.fct.unl.pt
 software: ampl
 ---
