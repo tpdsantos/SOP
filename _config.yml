@@ -24,6 +24,7 @@ github_username:  tpdsantos
 
 # Build settings
 markdown: kramdown
+mathjax: true
 theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed

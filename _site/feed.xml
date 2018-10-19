@@ -1,4 +1,306 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-10-06T14:03:58+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Simulação e Otimização de Processos</title><subtitle>Material de apoio das aulas de SOP</subtitle><entry><title type="html">Formular um Problema</title><link href="http://localhost:4000/2018/10/06/problem-formulation.html" rel="alternate" type="text/html" title="Formular um Problema" /><published>2018-10-06T00:00:00+01:00</published><updated>2018-10-06T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/06/problem-formulation</id><content type="html" xml:base="http://localhost:4000/2018/10/06/problem-formulation.html">&lt;p&gt;Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-10-19T17:35:05+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Simulação e Otimização de Processos</title><subtitle>Material de apoio das aulas de SOP</subtitle><entry><title type="html">Desenvolver um solucionador de sudokus</title><link href="http://localhost:4000/2018/10/19/sudoku.html" rel="alternate" type="text/html" title="Desenvolver um solucionador de sudokus" /><published>2018-10-19T00:00:00+01:00</published><updated>2018-10-19T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/19/sudoku</id><content type="html" xml:base="http://localhost:4000/2018/10/19/sudoku.html">&lt;p&gt;Nesta secção vamos aprender a formular um solucionador de sudokus, recorrendo a todas as ferramentas que já aprendemos de AMPL e mais algumas novas.&lt;/p&gt;
+
+&lt;h2 id=&quot;introdução&quot;&gt;Introdução&lt;/h2&gt;
+
+&lt;p&gt;Sudoku é um jogo baseado na colocação lógica de números. O objetivo do jogo é a colocação de números de 1 a 9 em cada uma das células vazias numa grelha de 9 × 9, constituída por 3 × 3 sub-grelhas chamadas regiões. O quebra-cabeça contém algumas pistas iniciais, que são números inseridos em algumas células, de maneira a permitir uma indução ou dedução dos números em células que estejam vazias. Cada coluna, linha e região só pode ter um número de cada um dos 1 a 9.&lt;/p&gt;
+
+&lt;h2 id=&quot;resolução&quot;&gt;Resolução&lt;/h2&gt;
+
+&lt;p&gt;Desde já começamos por criar os conjuntos de linhas e colunas do Sudoku:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set ROWS := 1..9 ;
+set COLS := 1..9 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Em cada uma das células da grelha deverá colocar-se um número inteiro entre 1 e 9. Por uma questão de conveniência vamos exprimir o número \(n_{i,j}\) colocado na linha \(i\) e coluna \(j\) da seguinte forma:&lt;/p&gt;
+
+&lt;p&gt;\[
+n_{i,j} = 1 \times b_{i,j,1} + 2 \times b_{i,j,2} + … + 9 \times b_{i,j,9} = \sum_{k=1}^9 k \times b_{i,j,k} 
+\]&lt;/p&gt;
+
+&lt;p&gt;em que cada uma das variáveis \( b_{i,j,k} \in \{0,1\} \)  é binária, isto é, que só pode assumir um de dois valores: zero ou um. Obviamente, na expressão que define \( n_{i,j} \) só um dos \( b_{i,j,k} \) é que pode ser igual a 1 sendo todos os outros iguais a 0, ou seja, as variáveis binárias \( b_{i,j,k} \) têm de satisfazer a seguinte condição:&lt;/p&gt;
+
+&lt;p&gt;\[
+\sum_{k=1}^9 b_{i,j,k} = 1, \forall_i \in ROWS, \forall_j \in COLS
+\]&lt;/p&gt;
+
+&lt;p&gt;O equivalente em AMPL será:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set DIGITS := 1..9 ;
+
+var b { ROWS, COLS, DIGITS } binary ;
+
+var n { r in ROWS , c in COLS } = sum { d in DIGITS } ( d * b[r,c,d] ) ;
+
+s.t. unique_digits { r in ROWS , c in COLS } : sum { d in DIGITS } ( b[r,c,d] ) = 1 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora consideremos as restantes condições do Sudoku. Comecemos pelas mais fáceis. Uma linha do Sudoku tem de conter os números de 1 a 9 sem repetição. Por exemplo, suponha-se que a quarta linha contêm a seguinte sequência válida de números de 1 a 9: 3, 5, 1, 8, 6, 7, 9, 2, 4. Os valores de \( b_{4,j,k} \) com \( j \in COLS, k \in DIGITS \) será:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  k= 1 2 3 4 5 6 7 8 9
+  
+j=1: 0 0 1 0 0 0 0 0 0
+
+j=2: 0 0 0 0 0 0 0 1 0
+
+j=3: 1 0 0 0 0 0 0 0 0
+
+j=4: 0 0 0 0 0 0 0 0 1
+
+j=5: 0 1 0 0 0 0 0 0 0
+
+j=6: 0 0 0 0 1 0 0 0 0
+
+j=7: 0 0 0 0 0 1 0 0 0
+
+j=8: 0 0 0 1 0 0 0 0 0
+
+j=9: 0 0 0 0 0 0 1 0 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Conclui-se que uma linha com sequência válida tem de satisfazer a seguinte condição:&lt;/p&gt;
+
+&lt;p&gt;\[
+\sum_{j \in COLS} d_{i,j,k} = 1, \forall_i \in LINES, \forall_k \in DIGITS
+\]&lt;/p&gt;
+
+&lt;p&gt;A restrição equivalente em AMPL será:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;s.t. unique_rows { r in ROWS , d in DIGITS } : sum { c in COLS } ( b[r,c,d] ) = 1 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Se aplicarmos um raciocínio idêntico a uma coluna arbitrária chegamos a uma conclusão parecida, isto é,&lt;/p&gt;
+
+&lt;p&gt;\[
+\sum_{i \in ROWS} b_{i,j,k} = 1, \forall_j \in COLS, \forall_k \in DIGITS
+\]&lt;/p&gt;
+
+&lt;p&gt;A restrição equivalente em AMPL será:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;s.t. unique_cols { r in ROWS , d in DIGITS } : sum { r in ROWS } ( b[i,j,k] ) = 1 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finalmente, a última condição é que o conjunto de números distribuídos em cada uma das nove regiões da grelha não pode conter elementos repetidos. Primeiramente precisamos de definir os elementos de cada região da grelha. Por exemplo, uma forma de enumerar os elementos de cada região será:&lt;/p&gt;
+
+&lt;p&gt;\[
+\{ (I+i,J+j) : i = 0,1,2 , j = 0,1,2 \}, \forall_I \in \{1,4,7\}, \forall_J \in \{1,4,7\}
+\]&lt;/p&gt;
+
+&lt;p&gt;De acordo com esta definição os elementos da região definida por \( I = 4 \), \( J = 7 \) serão (4,7), (4,8), (4,9), (5,7), (5,8), (5,9), (6,7), (6,8), (6,9), e assim por diante.&lt;/p&gt;
+
+&lt;p&gt;A restrição em AMPL baseada nesta ordenação das regiões será:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;s.t. sub_grid { I in {1,4,7}, J in {1,4,7}, d in DIGITS } : 
+     sum { i in {0,1,2} , j in {0,1,2} } ( b[I+i,J+j,k] ) = 1 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finalmente, consideremos as pistas iniciais, que são números inseridos em algumas células, de maneira a permitir uma indução ou dedução dos números em células que estejam vazias. As pistas pertencem a um conjunto de pares \( (i,j,n_{ij}^0) \in ROWS \times COLS \times DIGITS \) que indicam que a célula com coordenadas \( (i,j) \) tem o número \( n_{ij}^0 \).&lt;/p&gt;
+
+&lt;p&gt;Em AMPL podemos definir um conjuntos CLUES, a ser definido pelo utilizador, que contém as posições dos números conhecidos:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set CLUES within { ROWS , COLS } ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Esta definição obriga a que o conjunto CLUES seja um subconjunto do conjunto de todos os pares formados a partir de ROWS e COLS. Os números \( n_{ij}^0 \) são definidos como parâmetros a introduzir pelo utilizador:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;param n0 { CLUES } integer &amp;gt;= 1, &amp;lt;= 9 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Esta declaração obriga a que os valores de \( n_{ij}^0 \) sejam inteiros entre 1 e 9. Conhecidos os valores de \( n_{ij}^0 \) podemos fixar os valores correpondentes de \( b_{i,j,k} \) :&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;s.t. fix_vars { (i,j) in CLUES, d in DIGITS } :
+     b[i,j,k] = (if n0[i,j] = k then 1 else 0) ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Para que as variáveis \( b \) fixadas por estas condições sejam automaticamente eliminadas do problema é necessário adicionar a seguinte opção:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;option substout 1 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Já agora, para que o AMPL seja mais descritivo na forma como simplifica o problema convém adicionar a seguinte opção:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;option show_stats 1 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;exemplo&quot;&gt;Exemplo&lt;/h2&gt;
+
+&lt;p&gt;Na aula do dia 19-10-2018 foi realizado um exemplo. Foi-se buscar à internet um sudoku com os seguintes valores iniciais:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;C1&lt;/th&gt;
+      &lt;th&gt;C2&lt;/th&gt;
+      &lt;th&gt;C3&lt;/th&gt;
+      &lt;th&gt;C4&lt;/th&gt;
+      &lt;th&gt;C5&lt;/th&gt;
+      &lt;th&gt;C6&lt;/th&gt;
+      &lt;th&gt;C7&lt;/th&gt;
+      &lt;th&gt;C8&lt;/th&gt;
+      &lt;th&gt;C9&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R1&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R2&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R5&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R6&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R7&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R8&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R9&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;No menu &lt;code class=&quot;highlighter-rouge&quot;&gt;data ;&lt;/code&gt; escrevemos estes dados da seguinte forma:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;data ;
+
+param: CLUES: n0 := 1 7 6
+                    1 8 8
+                    2 5 7
+                    2 6 3
+                    2 9 9
+                    3 1 3
+                    3 3 9
+                    3 8 4
+                    3 9 5
+                    4 1 4
+                    4 2 9
+                    5 1 8
+                    5 3 3
+                    5 5 5
+                    5 7 9
+                    5 9 2
+                    6 8 3
+                    6 9 6
+                    7 1 9
+                    7 2 6
+                    7 7 3
+                    7 9 8
+                    8 1 7
+                    8 4 6
+                    8 5 8
+                    9 2 2
+                    9 3 8 ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Em cada tripla de valores, o primeiro é o número da linha, o segundo é o número da coluna e o terceiro é o valor do quadrado.&lt;/p&gt;
+
+&lt;p&gt;Após explicitarmos os dados basta resolvermos mesmo o problema:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;option solver cplex ;
+
+solve ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;e ver o nosso sudoku resolvido:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;display { r in ROWS, c in COLS } n[r,c] ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Assim termina esta secção.&lt;/p&gt;</content><author><name>José Paulo Mota</name></author><summary type="html">Nesta secção vamos aprender a formular um solucionador de sudokus, recorrendo a todas as ferramentas que já aprendemos de AMPL e mais algumas novas.</summary></entry><entry><title type="html">Formular um Problema</title><link href="http://localhost:4000/2018/10/06/problem-formulation.html" rel="alternate" type="text/html" title="Formular um Problema" /><published>2018-10-06T00:00:00+01:00</published><updated>2018-10-06T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/06/problem-formulation</id><content type="html" xml:base="http://localhost:4000/2018/10/06/problem-formulation.html">&lt;p&gt;Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.&lt;/p&gt;
 
 &lt;h2 id=&quot;variáveis-dependentes&quot;&gt;Variáveis dependentes&lt;/h2&gt;
 
@@ -31,7 +333,37 @@ var raw_flow { RAWMAT } ;
 param raw_max { RAWMAT } ;
 
 s.t. max_raw {r in RAWMAT} : raw_flow[r] &amp;lt;= raw_max[r] ;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Tiago Santos</name></author><summary type="html">Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.</summary></entry><entry><title type="html">Introdução a AMPL</title><link href="http://localhost:4000/2018/10/03/introduction-to-ampl.html" rel="alternate" type="text/html" title="Introdução a AMPL" /><published>2018-10-03T00:00:00+01:00</published><updated>2018-10-03T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/03/introduction-to-ampl</id><content type="html" xml:base="http://localhost:4000/2018/10/03/introduction-to-ampl.html">&lt;h2 id=&quot;premissa-da-linguagem&quot;&gt;Premissa da linguagem&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Com esta restrição estamos a construir uma espécie de ciclo &lt;em&gt;for&lt;/em&gt;, em que o &lt;code class=&quot;highlighter-rouge&quot;&gt;r&lt;/code&gt; representa cada matéria prima.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-função-sum&quot;&gt;A função &lt;code class=&quot;highlighter-rouge&quot;&gt;sum&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;A função &lt;code class=&quot;highlighter-rouge&quot;&gt;sum&lt;/code&gt; é bastante importante e utilizada, por isso merece uma secção independente. Em muitos problemas de otimização precisamos de somar parâmetros, variáveis ou a junção dos dois. Vamos ver a sintaxe com um exemplo. Tendo em conta tudo o que vimos até agora, vamos acrescentar um parâmetro, a quantidade de quilos de cada matéria prima necessária para criar um quilo de produto, assumindo que só há um produto:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set RAWMAT ;
+
+param FRAC_RAW { RAWMAT } &amp;gt;= 0 ;
+
+var raw_flow { RAWMAT } &amp;gt;= 0 ;
+
+var prod = sum {r in RAWMAT} ( FRAC_RAW[r] * raw_flow[r] ) ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;A sintaxe de &lt;code class=&quot;highlighter-rouge&quot;&gt;sum&lt;/code&gt; é idêntica a todos os outros comandos: dentro das chavetas metemos o conjunto que queremos somar e à frente a expressão que cada valor, a somar, vai tomar.&lt;/p&gt;
+
+&lt;h2 id=&quot;o-comando-maximize-e-minimize&quot;&gt;O comando &lt;code class=&quot;highlighter-rouge&quot;&gt;maximize&lt;/code&gt; e &lt;code class=&quot;highlighter-rouge&quot;&gt;minimize&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Depois do problema ser formulado, precisamos de dizer ao AMPL o que otimizar. Queremos maximizar um lucro ou um rendimento? Queremos minimizar a soma dos erros quadráticos de uma experiência ou o tempo de operação de um processo? Podemos utilizar um dos dois comandos para fazer exatamente isso:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;maximize profit : sales - costs ;
+# or
+minimize square_errors : expression_to_be_minimized ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Nestes comandos não se pode utilizar chavetas, só se pode dar expressões que dêm origem a um único valor.&lt;/p&gt;
+
+&lt;p&gt;Na proxima secção falaremos como transmitir os dados específicos de cada problema para o AMPL.&lt;/p&gt;</content><author><name>Tiago Santos</name></author><summary type="html">Nesta secção falaremos em como formular um problema real, criando restrições, variáveis dependentes e mandar o AMPL minimizar ou maximizar a condição desejada.</summary></entry><entry><title type="html">Introdução a AMPL</title><link href="http://localhost:4000/2018/10/03/introduction-to-ampl.html" rel="alternate" type="text/html" title="Introdução a AMPL" /><published>2018-10-03T00:00:00+01:00</published><updated>2018-10-03T00:00:00+01:00</updated><id>http://localhost:4000/2018/10/03/introduction-to-ampl</id><content type="html" xml:base="http://localhost:4000/2018/10/03/introduction-to-ampl.html">&lt;h2 id=&quot;premissa-da-linguagem&quot;&gt;Premissa da linguagem&lt;/h2&gt;
 
 &lt;p&gt;A linguagem AMPL é bastante distinta das outras linguagens mais populares no que toca à sua premissa principal. Ela não foi criada para ser flexível nem para ser versátil, foi criada para resolver um determinado tipo de problemas da forma mais eficiente e rápida possível, e faz exatamente isso, sacrificando a versatilidade.&lt;/p&gt;
 

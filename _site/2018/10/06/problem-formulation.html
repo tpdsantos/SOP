@@ -33,7 +33,11 @@
     </section>
 
     <section class="main-content">
-      <a href="http://localhost:4000">Retomar à página inicial</a>
+      <script type="text/javascript" async 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?
+config=TeX-AMS-MML_HTMLorMML"></script>
+
+<a href="http://localhost:4000">Retomar à página inicial</a>
 
 <h1>Formular um Problema</h1>
 
@@ -52,7 +56,7 @@
   </tr>
   <tr>
     <td>Última Atualização</td>
-    <td>06-10-2018</td>
+    <td>15-10-2018</td>
   </tr>
 </table>
 
@@ -93,6 +97,35 @@ param raw_max { RAWMAT } ;
 s.t. max_raw {r in RAWMAT} : raw_flow[r] &lt;= raw_max[r] ;
 </code></pre></div></div>
 
+<p>Com esta restrição estamos a construir uma espécie de ciclo <em>for</em>, em que o <code class="highlighter-rouge">r</code> representa cada matéria prima.</p>
+
+<h2 id="a-função-sum">A função <code class="highlighter-rouge">sum</code></h2>
+
+<p>A função <code class="highlighter-rouge">sum</code> é bastante importante e utilizada, por isso merece uma secção independente. Em muitos problemas de otimização precisamos de somar parâmetros, variáveis ou a junção dos dois. Vamos ver a sintaxe com um exemplo. Tendo em conta tudo o que vimos até agora, vamos acrescentar um parâmetro, a quantidade de quilos de cada matéria prima necessária para criar um quilo de produto, assumindo que só há um produto:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set RAWMAT ;
+
+param FRAC_RAW { RAWMAT } &gt;= 0 ;
+
+var raw_flow { RAWMAT } &gt;= 0 ;
+
+var prod = sum {r in RAWMAT} ( FRAC_RAW[r] * raw_flow[r] ) ;
+</code></pre></div></div>
+
+<p>A sintaxe de <code class="highlighter-rouge">sum</code> é idêntica a todos os outros comandos: dentro das chavetas metemos o conjunto que queremos somar e à frente a expressão que cada valor, a somar, vai tomar.</p>
+
+<h2 id="o-comando-maximize-e-minimize">O comando <code class="highlighter-rouge">maximize</code> e <code class="highlighter-rouge">minimize</code></h2>
+
+<p>Depois do problema ser formulado, precisamos de dizer ao AMPL o que otimizar. Queremos maximizar um lucro ou um rendimento? Queremos minimizar a soma dos erros quadráticos de uma experiência ou o tempo de operação de um processo? Podemos utilizar um dos dois comandos para fazer exatamente isso:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>maximize profit : sales - costs ;
+# or
+minimize square_errors : expression_to_be_minimized ;
+</code></pre></div></div>
+
+<p>Nestes comandos não se pode utilizar chavetas, só se pode dar expressões que dêm origem a um único valor.</p>
+
+<p>Na proxima secção falaremos como transmitir os dados específicos de cada problema para o AMPL.</p>
 
 
 <hr>

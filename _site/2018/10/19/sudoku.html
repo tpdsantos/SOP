@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Desenvolver um solucionador de sudokus | Simulação e Otimização de Processos</title>
+<meta name="generator" content="Jekyll v3.8.4" />
+<meta property="og:title" content="Desenvolver um solucionador de sudokus" />
+<meta name="author" content="José Paulo Mota" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Nesta secção vamos aprender a formular um solucionador de sudokus, recorrendo a todas as ferramentas que já aprendemos de AMPL e mais algumas novas." />
+<meta property="og:description" content="Nesta secção vamos aprender a formular um solucionador de sudokus, recorrendo a todas as ferramentas que já aprendemos de AMPL e mais algumas novas." />
+<link rel="canonical" href="http://localhost:4000/2018/10/19/sudoku.html" />
+<meta property="og:url" content="http://localhost:4000/2018/10/19/sudoku.html" />
+<meta property="og:site_name" content="Simulação e Otimização de Processos" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-19T00:00:00+01:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"Desenvolver um solucionador de sudokus","dateModified":"2018-10-19T00:00:00+01:00","datePublished":"2018-10-19T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/10/19/sudoku.html"},"url":"http://localhost:4000/2018/10/19/sudoku.html","author":{"@type":"Person","name":"José Paulo Mota"},"description":"Nesta secção vamos aprender a formular um solucionador de sudokus, recorrendo a todas as ferramentas que já aprendemos de AMPL e mais algumas novas.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="/assets/css/style.css?v=">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Simulação e Otimização de Processos</h1>
+      <h2 class="project-tagline">Material de apoio das aulas de SOP</h2>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <script type="text/javascript" async 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?
+config=TeX-AMS-MML_HTMLorMML"></script>
+
+<a href="http://localhost:4000">Retomar à página inicial</a>
+
+<h1>Desenvolver um solucionador de sudokus</h1>
+
+<table>
+  <tr>
+    <td>Autor</td>
+    <td>José Paulo Mota</td>
+  </tr>
+  <tr>
+    <td>e-mail</td>
+    <td><i>pmota@fct.unl.pt</i></td>
+  </tr>
+  <tr>
+    <td>Data Criação</td>
+    <td>19-10-2018</td>
+  </tr>
+  <tr>
+    <td>Última Atualização</td>
+    <td>19-10-2018</td>
+  </tr>
+</table>
+
+<hr>
+
+<p>Nesta secção vamos aprender a formular um solucionador de sudokus, recorrendo a todas as ferramentas que já aprendemos de AMPL e mais algumas novas.</p>
+
+<h2 id="introdução">Introdução</h2>
+
+<p>Sudoku é um jogo baseado na colocação lógica de números. O objetivo do jogo é a colocação de números de 1 a 9 em cada uma das células vazias numa grelha de 9 × 9, constituída por 3 × 3 sub-grelhas chamadas regiões. O quebra-cabeça contém algumas pistas iniciais, que são números inseridos em algumas células, de maneira a permitir uma indução ou dedução dos números em células que estejam vazias. Cada coluna, linha e região só pode ter um número de cada um dos 1 a 9.</p>
+
+<h2 id="resolução">Resolução</h2>
+
+<p>Desde já começamos por criar os conjuntos de linhas e colunas do Sudoku:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set ROWS := 1..9 ;
+set COLS := 1..9 ;
+</code></pre></div></div>
+
+<p>Em cada uma das células da grelha deverá colocar-se um número inteiro entre 1 e 9. Por uma questão de conveniência vamos exprimir o número \(n_{i,j}\) colocado na linha \(i\) e coluna \(j\) da seguinte forma:</p>
+
+<p>\[
+n_{i,j} = 1 \times b_{i,j,1} + 2 \times b_{i,j,2} + … + 9 \times b_{i,j,9} = \sum_{k=1}^9 k \times b_{i,j,k} 
+\]</p>
+
+<p>em que cada uma das variáveis \( b_{i,j,k} \in \{0,1\} \)  é binária, isto é, que só pode assumir um de dois valores: zero ou um. Obviamente, na expressão que define \( n_{i,j} \) só um dos \( b_{i,j,k} \) é que pode ser igual a 1 sendo todos os outros iguais a 0, ou seja, as variáveis binárias \( b_{i,j,k} \) têm de satisfazer a seguinte condição:</p>
+
+<p>\[
+\sum_{k=1}^9 b_{i,j,k} = 1, \forall_i \in ROWS, \forall_j \in COLS
+\]</p>
+
+<p>O equivalente em AMPL será:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set DIGITS := 1..9 ;
+
+var b { ROWS, COLS, DIGITS } binary ;
+
+var n { r in ROWS , c in COLS } = sum { d in DIGITS } ( d * b[r,c,d] ) ;
+
+s.t. unique_digits { r in ROWS , c in COLS } : sum { d in DIGITS } ( b[r,c,d] ) = 1 ;
+</code></pre></div></div>
+
+<p>Agora consideremos as restantes condições do Sudoku. Comecemos pelas mais fáceis. Uma linha do Sudoku tem de conter os números de 1 a 9 sem repetição. Por exemplo, suponha-se que a quarta linha contêm a seguinte sequência válida de números de 1 a 9: 3, 5, 1, 8, 6, 7, 9, 2, 4. Os valores de \( b_{4,j,k} \) com \( j \in COLS, k \in DIGITS \) será:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  k= 1 2 3 4 5 6 7 8 9
+  
+j=1: 0 0 1 0 0 0 0 0 0
+
+j=2: 0 0 0 0 0 0 0 1 0
+
+j=3: 1 0 0 0 0 0 0 0 0
+
+j=4: 0 0 0 0 0 0 0 0 1
+
+j=5: 0 1 0 0 0 0 0 0 0
+
+j=6: 0 0 0 0 1 0 0 0 0
+
+j=7: 0 0 0 0 0 1 0 0 0
+
+j=8: 0 0 0 1 0 0 0 0 0
+
+j=9: 0 0 0 0 0 0 1 0 0
+</code></pre></div></div>
+
+<p>Conclui-se que uma linha com sequência válida tem de satisfazer a seguinte condição:</p>
+
+<p>\[
+\sum_{j \in COLS} d_{i,j,k} = 1, \forall_i \in LINES, \forall_k \in DIGITS
+\]</p>
+
+<p>A restrição equivalente em AMPL será:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s.t. unique_rows { r in ROWS , d in DIGITS } : sum { c in COLS } ( b[r,c,d] ) = 1 ;
+</code></pre></div></div>
+
+<p>Se aplicarmos um raciocínio idêntico a uma coluna arbitrária chegamos a uma conclusão parecida, isto é,</p>
+
+<p>\[
+\sum_{i \in ROWS} b_{i,j,k} = 1, \forall_j \in COLS, \forall_k \in DIGITS
+\]</p>
+
+<p>A restrição equivalente em AMPL será:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s.t. unique_cols { r in ROWS , d in DIGITS } : sum { r in ROWS } ( b[i,j,k] ) = 1 ;
+</code></pre></div></div>
+
+<p>Finalmente, a última condição é que o conjunto de números distribuídos em cada uma das nove regiões da grelha não pode conter elementos repetidos. Primeiramente precisamos de definir os elementos de cada região da grelha. Por exemplo, uma forma de enumerar os elementos de cada região será:</p>
+
+<p>\[
+\{ (I+i,J+j) : i = 0,1,2 , j = 0,1,2 \}, \forall_I \in \{1,4,7\}, \forall_J \in \{1,4,7\}
+\]</p>
+
+<p>De acordo com esta definição os elementos da região definida por \( I = 4 \), \( J = 7 \) serão (4,7), (4,8), (4,9), (5,7), (5,8), (5,9), (6,7), (6,8), (6,9), e assim por diante.</p>
+
+<p>A restrição em AMPL baseada nesta ordenação das regiões será:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s.t. sub_grid { I in {1,4,7}, J in {1,4,7}, d in DIGITS } : 
+     sum { i in {0,1,2} , j in {0,1,2} } ( b[I+i,J+j,k] ) = 1 ;
+</code></pre></div></div>
+
+<p>Finalmente, consideremos as pistas iniciais, que são números inseridos em algumas células, de maneira a permitir uma indução ou dedução dos números em células que estejam vazias. As pistas pertencem a um conjunto de pares \( (i,j,n_{ij}^0) \in ROWS \times COLS \times DIGITS \) que indicam que a célula com coordenadas \( (i,j) \) tem o número \( n_{ij}^0 \).</p>
+
+<p>Em AMPL podemos definir um conjuntos CLUES, a ser definido pelo utilizador, que contém as posições dos números conhecidos:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set CLUES within { ROWS , COLS } ;
+</code></pre></div></div>
+
+<p>Esta definição obriga a que o conjunto CLUES seja um subconjunto do conjunto de todos os pares formados a partir de ROWS e COLS. Os números \( n_{ij}^0 \) são definidos como parâmetros a introduzir pelo utilizador:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>param n0 { CLUES } integer &gt;= 1, &lt;= 9 ;
+</code></pre></div></div>
+
+<p>Esta declaração obriga a que os valores de \( n_{ij}^0 \) sejam inteiros entre 1 e 9. Conhecidos os valores de \( n_{ij}^0 \) podemos fixar os valores correpondentes de \( b_{i,j,k} \) :</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s.t. fix_vars { (i,j) in CLUES, d in DIGITS } :
+     b[i,j,k] = (if n0[i,j] = k then 1 else 0) ;
+</code></pre></div></div>
+
+<p>Para que as variáveis \( b \) fixadas por estas condições sejam automaticamente eliminadas do problema é necessário adicionar a seguinte opção:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>option substout 1 ;
+</code></pre></div></div>
+
+<p>Já agora, para que o AMPL seja mais descritivo na forma como simplifica o problema convém adicionar a seguinte opção:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>option show_stats 1 ;
+</code></pre></div></div>
+
+<h2 id="exemplo">Exemplo</h2>
+
+<p>Na aula do dia 19-10-2018 foi realizado um exemplo. Foi-se buscar à internet um sudoku com os seguintes valores iniciais:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>C1</th>
+      <th>C2</th>
+      <th>C3</th>
+      <th>C4</th>
+      <th>C5</th>
+      <th>C6</th>
+      <th>C7</th>
+      <th>C8</th>
+      <th>C9</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>R1</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>6</td>
+      <td>8</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>7</td>
+      <td>3</td>
+      <td> </td>
+      <td> </td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>R3</td>
+      <td>3</td>
+      <td> </td>
+      <td>9</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>R4</td>
+      <td>4</td>
+      <td>9</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>R5</td>
+      <td>8</td>
+      <td> </td>
+      <td>3</td>
+      <td> </td>
+      <td>5</td>
+      <td> </td>
+      <td>9</td>
+      <td> </td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>R6</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>3</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>R7</td>
+      <td>9</td>
+      <td>6</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>3</td>
+      <td> </td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>R8</td>
+      <td>7</td>
+      <td> </td>
+      <td> </td>
+      <td>6</td>
+      <td>8</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>R9</td>
+      <td> </td>
+      <td>2</td>
+      <td>8</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>No menu <code class="highlighter-rouge">data ;</code> escrevemos estes dados da seguinte forma:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data ;
+
+param: CLUES: n0 := 1 7 6
+                    1 8 8
+                    2 5 7
+                    2 6 3
+                    2 9 9
+                    3 1 3
+                    3 3 9
+                    3 8 4
+                    3 9 5
+                    4 1 4
+                    4 2 9
+                    5 1 8
+                    5 3 3
+                    5 5 5
+                    5 7 9
+                    5 9 2
+                    6 8 3
+                    6 9 6
+                    7 1 9
+                    7 2 6
+                    7 7 3
+                    7 9 8
+                    8 1 7
+                    8 4 6
+                    8 5 8
+                    9 2 2
+                    9 3 8 ;
+</code></pre></div></div>
+
+<p>Em cada tripla de valores, o primeiro é o número da linha, o segundo é o número da coluna e o terceiro é o valor do quadrado.</p>
+
+<p>Após explicitarmos os dados basta resolvermos mesmo o problema:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>option solver cplex ;
+
+solve ;
+</code></pre></div></div>
+
+<p>e ver o nosso sudoku resolvido:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>display { r in ROWS, c in COLS } n[r,c] ;
+</code></pre></div></div>
+
+<p>Assim termina esta secção.</p>
+
+
+<hr>
+
+<a href="http://localhost:4000">Retomar à página inicial</a>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>
