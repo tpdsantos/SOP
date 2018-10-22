@@ -24,12 +24,6 @@ var b = sum {p in PROCS_A} ( a[p] * YIELD[p] ) ;
 
 var bc >= 0 ;
 
-# Para resolver a alínea a), basta correr este programa.
-# Para resolver a alínea b), apagar o '#' no início da linha abaixo
-#
-# include prob3b.ampl
-#
-
 var c = (b + bc) * YIELD_C ;
 
 s.t. min_A {p in PROCS_A} : a[p] >= MIN_CAP[p] ;
@@ -74,13 +68,3 @@ param :      YIELD , MIN_CAP , MAX_CAP , cost_fix_A , cost_var_A :=
 	A1    0.95      3         6          50         10
         A2    0.85      3         8          40         7
         A3    0.99      2         5          70         8       ;
-
-######################################
-
-option substout 1 ;
-option solver "/home/tsantos/SOFTWARES/ampl-demo/cplex" ;
-solve ;
-
-display profit ;
-display {p in PROCS_A} a[p] ;
-display b, bc, c ;
