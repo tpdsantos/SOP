@@ -9,7 +9,7 @@
 #
 # Para resolver a alínea b), retirar o '#' do início da linha acima e abaixo:
 #
- include prob3b.ampl
+# include prob3b.ampl
 #
 
 ################################################
