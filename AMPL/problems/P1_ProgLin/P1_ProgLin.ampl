@@ -14,9 +14,9 @@ var prods {p in PRODS} >= 0 , <= NEEDS[p]/30 ;
 
 set DEST_OUT ;
 
-param MAX_DEST                  >= 0         ;
-param OP_COST_DEST              >= 0         ;
-param DEST_REND    { DEST_OUT } >= 0, <= 100 ;
+param MAX_DEST                  >= 0       ;
+param OP_COST_DEST              >= 0       ;
+param DEST_REND    { DEST_OUT } >= 0, <= 1 ;
 
 var crude  >= 0 , <= MAX_DEST ;
 var dest_out {do in DEST_OUT}  = crude * DEST_REND[do] ;
@@ -48,40 +48,59 @@ s.t. blend_res {iv in {'Res'}}: blend_in[iv] = dest_out[iv] ;
 
 ##### BALANÇO NAFTA #####
 
+param iv1 symbolic := 'Naf' ;
+
 var inter_nafta >= 0 ;
 
-s.t. nafta_mass_balance {iv in {'Naf'}}: dest_out[iv] = inter_nafta + prods[iv] ;
+s.t. nafta_mass_balance : dest_out[iv1] = inter_nafta + prods[iv1] ;
 
 
 ##### BALANÇO GASOLINA #####
 
-s.t. gas_mass_balance {iv in {'Gas'}} : inter_nafta + crack_out[iv] = prods[iv] ;
-s.t. nafta_restraint  {iv in {'Gas'}} : inter_nafta = crack_out[iv] ;
+param iv2 symbolic := 'Gas' ;
+
+s.t. gas_mass_balance : inter_nafta + crack_out[iv2] = prods[iv2] ;
+s.t. nafta_restraint  : inter_nafta = crack_out[iv2] ;
 
 
 ##### BALANÇO DESTILADO MÉDIO #####
 
+param iv3 symbolic := 'DM' ;
+
 var inter_dm >= 0 ;
 
-s.t. dm_mass_balance {iv in {'DM'}} : dest_out[iv] = blend_in[iv] + inter_dm ;
+s.t. dm_mass_balance : dest_out[iv3] = blend_in[iv3] + inter_dm ;
+
+
+##### BALANÇO DESTILADO PESADO #####
+
+param iv4 symbolic := 'DP' ;
+
+s.t. dp_mass_balance : dest_out[iv4] = blend_in[iv4] + crack_in[iv4] ;
 
 
 ##### BALANÇO GASÓLEO #####
 
+param iv5 symbolic := 'Diesel' ;
+
 var inter_diesel >= 0 ;
 
-s.t. diesel_mass_balance {iv in {'Diesel'}} : crack_out[iv] = blend_in[iv] + inter_diesel ;
+s.t. diesel_mass_balance : crack_out[iv5] = blend_in[iv5] + inter_diesel ;
 
 
 ##### BALANÇO ÓLEO COMBUSTÍVEL #####
 
-s.t. oil_mass_balance {iv in {'Oil'}} : prods[iv] = inter_dm + inter_diesel ;
+param iv6 symbolic := 'Oil' ;
+
+s.t. oil_mass_balance : prods[iv6] = inter_dm + inter_diesel ;
 s.t. ratio_restraint  : inter_dm = 0.75 * (inter_dm+inter_diesel) ;
 
 
 ##### BALANÇO JET FUEL #####
 
-s.t. jet_mass_balance {iv in {'Jet'}} : prods[iv] = dest_out[iv] ;
+param iv7 symbolic := 'Jet' ;
+
+s.t. jet_mass_balance : prods[iv7] = dest_out[iv7] ;
 
 
 ##### DETERMINAÇÃO DE VALORES FINANCEIROS #####
@@ -141,3 +160,6 @@ solve ;
 
 display profit ;
 display {p in PRODS} prods[p] ;
+display crude ;
+display {p in CRACK_IN} crack_in[p] ;
+display {p in BLEND_IN} blend_in[p] ;
