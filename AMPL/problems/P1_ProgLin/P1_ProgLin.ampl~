@@ -1,0 +1,23 @@
+
+set PRODS ;
+
+param MAX_DEST      >= 0 ;
+param MAX_CRACK     >= 0 ;
+param OP_COST_DEST  >= 0 ;
+param OP_COST_CRACK >= 0 ;
+
+param DEST_REND { PRODS } >= 0, <= 100 ;
+param NEEDS     { PRODS } >= 0         ;
+param PRICE     { PRODS } >= 0         ;
+
+########################################
+
+var prods { PRODS }
+
+##### Balanço à coluna de destilação #####
+
+set DEST_OUT ;
+
+var dest_inlets { DEST_IN}
+
+
