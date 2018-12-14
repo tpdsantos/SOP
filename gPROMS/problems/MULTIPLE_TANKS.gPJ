@@ -7,7 +7,7 @@
         <StringProperty name="CreatedBy">tsantos</StringProperty>
         <DateProperty name="CreatedDate">2018-12-04T08:36:56Z</DateProperty>
         <StringProperty name="ModifiedBy">tsantos</StringProperty>
-        <DateProperty name="ModifiedDate">2018-12-04T15:36:55Z</DateProperty>
+        <DateProperty name="ModifiedDate">2018-12-10T18:53:50Z</DateProperty>
     </Properties>
     <ImageCache>
         <Image res="defaultModelIcon"/>
@@ -198,7 +198,7 @@ Fout = Cout * Q0 ;
                 <StringProperty name="CreatedBy">tsantos</StringProperty>
                 <DateProperty name="CreatedDate">2018-12-04T09:01:05Z</DateProperty>
                 <StringProperty name="ModifiedBy">tsantos</StringProperty>
-                <DateProperty name="ModifiedDate">2018-12-04T15:34:21Z</DateProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T18:53:50Z</DateProperty>
                 <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
                 <BooleanProperty name="IncludeUnitSpecifications">true</BooleanProperty>
                 <BooleanProperty name="IncludeInitialisationProcedure">false</BooleanProperty>
@@ -299,7 +299,9 @@ sequence
 { we can also use while loops to run the simulation only if some
   condition is met. In this case, we wanted to stop the simulation
   when all the tanks are clean to our standards. }
-  while T2.Fout(1) > 0.001 or T2.Fout(2) > 0.001 or T2.Fout(3) > 0.001 do
+  while T2.Fout(1) > 0.001 or 
+        T2.Fout(2) > 0.001 or 
+        T2.Fout(3) > 0.001 do
     continue for 0.1  
   end
 end]]></Body>

@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<gMB:GpromsProject xmlns:gMB="http://www.psenterprise.com/gMB" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.psenterprise.com/gMB http://www.psenterprise.com/gPJ.xsd" version="9" gMB_Version="4.0.0" gMB_Build="54901">
+    <Properties>
+        <BooleanProperty name="LibraryProject">false</BooleanProperty>
+        <BooleanProperty name="DisplayEmptyGroups">true</BooleanProperty>
+        <StringProperty name="CreatedBy">tsantos</StringProperty>
+        <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+        <StringProperty name="ModifiedBy">tsantos</StringProperty>
+        <DateProperty name="ModifiedDate">2018-12-10T22:40:54Z</DateProperty>
+    </Properties>
+    <ImageCache>
+        <Image res="defaultModelIcon"/>
+    </ImageCache>
+    <ModelReferenceCache>
+    </ModelReferenceCache>
+    <Group name="Variable Types">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:06:23Z</DateProperty>
+        </Properties>
+        <VariableTypeEntity name="CONCENTRATION" version="2">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T19:04:15Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T22:40:54Z</DateProperty>
+                <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
+            </Properties>
+            <DefaultValue>0.5</DefaultValue>
+            <MinValue>-0.1</MinValue>
+            <MaxValue>1.0E10</MaxValue>
+            <UomRef name="no_unit"/>
+        </VariableTypeEntity>
+        <VariableTypeEntity name="FLOW" version="2">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T19:04:39Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T19:04:39Z</DateProperty>
+                <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
+            </Properties>
+            <DefaultValue>0.5</DefaultValue>
+            <MinValue>-1.0E-4</MinValue>
+            <MaxValue>1.0E10</MaxValue>
+            <UomRef name="no_unit"/>
+        </VariableTypeEntity>
+        <VariableTypeEntity name="KINETICS" version="2">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T19:06:23Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T20:53:45Z</DateProperty>
+                <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
+            </Properties>
+            <DefaultValue>0.5</DefaultValue>
+            <MinValue>-1.0E10</MinValue>
+            <MaxValue>1.0E10</MaxValue>
+            <UomRef name="no_unit"/>
+        </VariableTypeEntity>
+    </Group>
+    <Group name="Stream Types">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+    <Group name="Connection Types">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+    <Group name="Models">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T21:05:56Z</DateProperty>
+        </Properties>
+        <ModelEntity name="CHROM_COL" type="psenterprise.gpromskit.models.ModelEntity" version="8" UnitNameShown="true" UnitModelShown="true">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T21:05:56Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T22:40:16Z</DateProperty>
+                <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
+                <StringProperty name="DefaultTab">topology</StringProperty>
+                <StringProperty name="DefaultCaseTab">reports</StringProperty>
+                <BooleanProperty name="DisplayedInPalette">false</BooleanProperty>
+                <BooleanProperty name="IncludeInitialisationProcedure">true</BooleanProperty>
+            </Properties>
+            <Icon>-199773695</Icon>
+            <FlowsheetLayers DefaultLayer="Layer 1">
+                <Layer name="Layer 1" visible="true" printed="true"/>
+            </FlowsheetLayers>
+            <UMS><![CDATA[]]></UMS>
+            <Body><![CDATA[ PARAMETER
+
+COMPS as ordered_set
+e  as real
+V  as real
+Q0 as real
+Pe as real
+H as array(COMPS) of real
+
+
+ DISTRIBUTION_DOMAIN
+
+AXIAL as [0:1]
+
+
+# UNIT
+# UnitName AS UnitModelName
+# UnitName AS ARRAY ( Size || OrderedSet < , ... > ) OF UnitModelName
+
+
+# PORT
+# PortName AS ConnectionType < DIRECTION_INLET || DIRECTION_OUTLET || DIRECTION_BIDIRECTIONAL >
+# PortName AS ARRAY ( Size || OrderedSet < , ... > ) OF ConnectionType <DIRECTION_INLET || DIRECTION_OUTLET || DIRECTION_BIDIRECTIONAL >
+
+
+ VARIABLE
+
+C    as distribution(COMPS,AXIAL) of CONCENTRATION
+Cin  as array(COMPS)              of CONCENTRATION
+Cout as array(COMPS)              of CONCENTRATION
+Fin  as array(COMPS)              of CONCENTRATION
+Fout as array(COMPS)              of CONCENTRATION
+
+# SELECTOR
+# SelectorName AS ( Flag < , ... > ) < DEFAULT Flag >
+# SelectorName AS ARRAY ( Size || OrderedSet < , ... > ) OF ( Flag < , ... > ) < DEFAULT Flag >
+# SelectorName AS DISTRIBUTION ( DomainName < , ... > ) OF ( Flag < , ... > ) < DEFAULT Flag >
+
+
+ SET
+
+AXIAL := [OCFEM,3,50] ;
+
+
+# BOUNDARY
+# Boundary condition equations
+
+
+# TOPOLOGY
+# Unit connection equations
+
+
+ EQUATION
+
+for i := 0|+ to 1|- do
+  $C(,i) * ( e + (1-e) * H ) = 
+  Q0/V * ( 1/Pe * partial(C(,i),AXIAL,AXIAL) - partial(C(,i),AXIAL) ) ;
+end 
+
+Cin = C(,0) - 1/Pe * partial(C(,0),AXIAL) ;
+
+partial(C(,1),AXIAL) = 0 ;
+
+Cout = C(,1) ;
+
+Fin  = Cin  * Q0 ;
+Fout = Cout * Q0 ;
+
+# ASSIGN
+# VariablePath := Expression ;
+# VariablePath := [ Expression < , ... > ];
+
+
+# PRESET
+# < RESTORE "filename" >
+# VariablePath := InitialValue ;
+# VariablePath := InitialValue : LowerBound : UpperBound ;
+
+
+# INITIALSELECTOR
+# SelectorPath := FlagPath ;
+# SelectorPath := [ FlagPath < , ... > ];
+
+
+# INITIAL
+# Equations
+]]></Body>
+        </ModelEntity>
+        <ModelEntity name="CSTR" type="psenterprise.gpromskit.models.ModelEntity" version="8" UnitNameShown="true" UnitModelShown="true">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T20:19:06Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T21:04:27Z</DateProperty>
+                <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
+                <StringProperty name="DefaultTab">topology</StringProperty>
+                <StringProperty name="DefaultCaseTab">reports</StringProperty>
+                <BooleanProperty name="DisplayedInPalette">false</BooleanProperty>
+                <BooleanProperty name="IncludeInitialisationProcedure">true</BooleanProperty>
+            </Properties>
+            <Icon>-199773695</Icon>
+            <FlowsheetLayers DefaultLayer="Layer 1">
+                <Layer name="Layer 1" visible="true" printed="true"/>
+            </FlowsheetLayers>
+            <UMS><![CDATA[]]></UMS>
+            <Body><![CDATA[ PARAMETER
+
+COMPS  as                 ordered_set
+COEFFS as array(COMPS) of integer
+Q0     as                 real
+V      as                 real
+k      as                 real
+
+
+# DISTRIBUTION_DOMAIN
+# DomainName AS [ LowerBound : UpperBound ]
+# DomainName AS ARRAY ( Size < , ... > ) OF [ LowerBound : UpperBound ]
+
+
+
+# PORT
+# PortName AS ConnectionType < DIRECTION_INLET || DIRECTION_OUTLET || DIRECTION_BIDIRECTIONAL >
+# PortName AS ARRAY ( Size || OrderedSet < , ... > ) OF ConnectionType <DIRECTION_INLET || DIRECTION_OUTLET || DIRECTION_BIDIRECTIONAL >
+
+
+ VARIABLE
+
+Cin  as array(COMPS) of CONCENTRATION
+Cout as array(COMPS) of CONCENTRATION
+Fin  as array(COMPS) of CONCENTRATION
+Fout as array(COMPS) of CONCENTRATION
+r    as array(COMPS) of KINETICS
+
+
+# SELECTOR
+# SelectorName AS ( Flag < , ... > ) < DEFAULT Flag >
+# SelectorName AS ARRAY ( Size || OrderedSet < , ... > ) OF ( Flag < , ... > ) < DEFAULT Flag >
+# SelectorName AS DISTRIBUTION ( DomainName < , ... > ) OF ( Flag < , ... > ) < DEFAULT Flag >
+
+
+# SET
+
+
+
+# BOUNDARY
+# Boundary condition equations
+
+
+# TOPOLOGY
+# Unit connection equations
+
+
+ EQUATION
+
+r = k * COEFFS * Cout('A') ;
+
+# entra + gerado = sai  + acumulado
+  Fin   + r * V  = Fout + V * $Cout   ;
+
+Fin  = Cin  * Q0 ;
+Fout = Cout * Q0 ;
+
+
+# ASSIGN
+# VariablePath := Expression ;
+# VariablePath := [ Expression < , ... > ];
+
+
+# PRESET
+# < RESTORE "filename" >
+# VariablePath := InitialValue ;
+# VariablePath := InitialValue : LowerBound : UpperBound ;
+
+
+# INITIALSELECTOR
+# SelectorPath := FlagPath ;
+# SelectorPath := [ FlagPath < , ... > ];
+
+
+# INITIAL
+# Equations
+]]></Body>
+        </ModelEntity>
+    </Group>
+    <Group name="Tasks">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+    <Group name="Processes">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T21:27:28Z</DateProperty>
+        </Properties>
+        <ProcessEntity name="SIMUL" type="psenterprise.gpromskit.models.ProcessEntity" version="1">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T19:35:08Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T20:57:17Z</DateProperty>
+                <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
+                <BooleanProperty name="IncludeUnitSpecifications">true</BooleanProperty>
+                <BooleanProperty name="IncludeInitialisationProcedure">false</BooleanProperty>
+            </Properties>
+            <Body><![CDATA[# PARAMETER
+# ParameterName AS INTEGER || REAL || LOGICAL < DEFAULT Value >
+# ParameterName AS ARRAY ( Size < , ... > ) OF INTEGER || REAL || LOGICAL < DEFAULT Value >
+# ParameterName AS FOREIGN_OBJECT < "ForeignObjectClass" > < DEFAULT "ForeignObjectValue" >
+
+ UNIT
+
+T as CSTR
+
+# MONITOR
+# SYNTAX: VariablePathPattern ;
+
+
+ SET
+
+within T do
+  Q0 := 1.0 ;
+  V  := 1.0 ;
+  COMPS := ['A','B','C'] ;
+  within KIN do
+    k := 3.0 ;
+    COEFFS := [ -1  ,  1  ,  1  ] ;
+  end
+end
+
+# EQUATION
+# Equations
+
+
+ ASSIGN
+
+T.Cin := [1.0,0.0,0.0] ;
+
+
+# PRESET
+# < RESTORE "filename" >
+# VariablePath := InitialValue ;
+# VariablePath := InitialValue : LowerBound : UpperBound ;
+
+
+# INITIALSELECTOR
+# SelectorPath := FlagPath ;
+# SelectorPath := [ FlagPath < , ... > ];
+
+
+ INITIAL
+
+T.Cout = 0.0 ;
+
+
+# SOLUTIONPARAMETERS
+
+
+ SCHEDULE
+continue for 10.0]]></Body>
+        </ProcessEntity>
+        <ProcessEntity name="SIMUL_CHROM" type="psenterprise.gpromskit.models.ProcessEntity" version="1">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T21:27:28Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T22:34:13Z</DateProperty>
+                <BooleanProperty name="Win32LineSeparation">false</BooleanProperty>
+                <BooleanProperty name="IncludeUnitSpecifications">true</BooleanProperty>
+                <BooleanProperty name="IncludeInitialisationProcedure">false</BooleanProperty>
+            </Properties>
+            <Body><![CDATA[# PARAMETER
+# ParameterName AS INTEGER || REAL || LOGICAL < DEFAULT Value >
+# ParameterName AS ARRAY ( Size < , ... > ) OF INTEGER || REAL || LOGICAL < DEFAULT Value >
+# ParameterName AS FOREIGN_OBJECT < "ForeignObjectClass" > < DEFAULT "ForeignObjectValue" >
+
+ UNIT
+
+CHROM as CHROM_COL
+
+
+# MONITOR
+# SYNTAX: VariablePathPattern ;
+
+
+ SET
+
+within CHROM do
+  COMPS := ['A','B'] ;
+  H     := [1.0,2.0] ;
+  e := 0.5 ;
+  Pe := 250.0 ;
+  V := 1.0 ;
+  Q0 := 1.0 ;
+end  
+
+
+# EQUATION
+# Equations
+
+
+ ASSIGN
+
+CHROM.Cin := [1.0,2.0] ;
+
+
+# PRESET
+# < RESTORE "filename" >
+# VariablePath := InitialValue ;
+# VariablePath := InitialValue : LowerBound : UpperBound ;
+
+
+# INITIALSELECTOR
+# SelectorPath := FlagPath ;
+# SelectorPath := [ FlagPath < , ... > ];
+
+
+ INITIAL
+
+CHROM.C(,0|+:1|-) = 0.0 ;
+
+
+ SOLUTIONPARAMETERS
+IdentityElimination := OFF ;
+
+
+ SCHEDULE
+continue for 10.0]]></Body>
+        </ProcessEntity>
+    </Group>
+    <Group name="Experiments">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+        <Group name="... performed">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+            </Properties>
+        </Group>
+        <Group name="... to be designed">
+            <Properties>
+                <StringProperty name="CreatedBy">tsantos</StringProperty>
+                <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+                <StringProperty name="ModifiedBy">tsantos</StringProperty>
+                <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+            </Properties>
+        </Group>
+    </Group>
+    <Group name="Experiment Designs">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+    <Group name="Parameter Estimations">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+    <Group name="Optimisations">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+    <Group name="Saved Variable Sets">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+    <Group name="Miscellaneous Files">
+        <Properties>
+            <StringProperty name="CreatedBy">tsantos</StringProperty>
+            <DateProperty name="CreatedDate">2018-12-10T19:02:59Z</DateProperty>
+            <StringProperty name="ModifiedBy">tsantos</StringProperty>
+            <DateProperty name="ModifiedDate">2018-12-10T19:02:59Z</DateProperty>
+        </Properties>
+    </Group>
+</gMB:GpromsProject>
