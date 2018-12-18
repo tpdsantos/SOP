@@ -1,0 +1,67 @@
+set PRODS := P1 P2 P3 P4 P5 P6 P7 ; 
+set EQUIPS := Mix Dec Reac Sec Col ;
+set MONTHS := Jan Feb Mar Apr May Jun ;
+
+param NUNITS :=
+Mix   4
+Dec   2
+Reac 3
+Sec   1
+Col 1 ;
+
+
+param PROFIT :=
+P1			10
+P2			60
+P3			80
+P4			4
+P5			11
+P6			9
+P7			3;
+
+
+param : NEED_EQUIPS : PROC_TIME (tr): Mix		Dec		Reac 	Sec 	Col :=
+P1				 0.5		0.1		0.2		0.5		. 
+P2				 0.7		0.2		.		0.3		.
+P3				 .		.		0.8		.		1.2
+P4				 .		0.3		.		0.7		.
+P5				 0.3		.		.		1.0		1.5
+P6				 0.2		0.2		.		.		.
+P7				 0.5		0.5		0.6		0.8		0.9 ;
+
+
+param MAX_SALE :  	Jan		Feb		Mar		Apr		May		Jun :=
+P1					500		600		300		200		0		500
+P2					1000	500		600		300		100		500
+P3					150		100		0		200		250		50
+P4					300		0		0		500		100		300
+P5					200		100		125		50		250		260
+P6					200		300		400		0		300		500
+P7					90		140		90		90		0		50	;
+
+
+param MONTH_DAYS :=
+Jan 26 
+Feb 25
+Mar 27
+Apr 25
+May 27
+Jun 26 ; 
+
+param MIN_STOCK := 
+Jan		0
+Feb		0
+Mar		0
+Apr		0
+May		0
+Jun		50 ; 
+
+param MAX_STOCK :=
+Jan		0
+Feb		100
+Mar		100
+Apr		100
+May		100
+Jun		70 ;
+
+param STOCK_COST := 0.6 ;
