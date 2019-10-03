@@ -1,7 +1,0 @@
-option show_stats 1 ;       # enable more verbose information from AMPL
-option substout   1 ;      	# enable variable substitution during presolve
-option solver     cplex ;	# select CPLEX solver
-
-model destil.mod ;			# load model
-data  destil.dat ; 			# load data
-solve ;            			# solve
