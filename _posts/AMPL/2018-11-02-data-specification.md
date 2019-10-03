@@ -56,8 +56,8 @@ Podemos dar os valores de `param_AB` da seguinte forma (por baixo da secção `d
 ```
 param param_AB : A1 A2 A3 :=
             B1   V1 V2 V3
-			B2   V4 V5 V6
-			B3   V7 V8 V9  ;
+            B2   V4 V5 V6
+            B3   V7 V8 V9  ;
 ```
 
 Bem mais simples e compacto que :
@@ -65,13 +65,13 @@ Bem mais simples e compacto que :
 ```
 param param_AB := A1 B1 V1
                   A2 B1 V2
-				  A3 B1 V3
-				  A1 B2 V4
-				  A2 B2 V5
-				  A3 B2 V6
-				  A1 B3 V7
-				  A2 B3 V8
-				  A3 B3 V9 ;
+                  A3 B1 V3
+                  A1 B2 V4
+                  A2 B2 V5
+                  A3 B2 V6
+                  A1 B3 V7
+                  A2 B3 V8
+                  A3 B3 V9 ;
 ```
 
 Algumas vezes temos conjuntos extensos, e os parâmetros associados a esses seriam também tediosos de dar valores. Para não precisarmos de definir primeiro o conjunto e depois o parâmetro associado a ele, podemos definir os dois ao mesmo tempo:
@@ -79,10 +79,10 @@ Algumas vezes temos conjuntos extensos, e os parâmetros associados a esses seri
 ```
 param : A : param_A := A1 V1
                        A2 V2
-					   A3 V3
-					   A4 V4
-					   A5 V5
-					   A6 V6 ;
+                       A3 V3
+                       A4 V4
+                       A5 V5
+                       A6 V6 ;
 ```
 
 Na mesma sintaxe dizemos que os primeiros valores definem o conjunto `A` e os segundos valores definem os valores do parâmetro `param_A`. Desta forma não precisamos de definir primeiro o `set` e depois o `param`, escrevemos tudo dentro do `param`.
