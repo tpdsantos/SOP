@@ -8,14 +8,12 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 
 {{ content }}
 
-{%- assign softs = "Julia,AMPL" | split: ',' -%}
+{%- assign softs = "AMPL" -%}
 
-{% for soft in softs %}
-    {%- assign downsoft = soft | downcase -%}
-    <h2><font color="grey">{{soft}}</font></h2>
-    {% for post in site.posts %}
-        {% if post.software == downsoft %}
-            <li><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></li>
-        {% endif %}
-    {% endfor %}
+{%- assign downsoft = soft | downcase -%}
+<h2><font color="grey">{{soft}}</font></h2>
+{% for post in site.posts %}
+    {% if post.software == downsoft %}
+        <li><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></li>
+    {% endif %}
 {% endfor %}
