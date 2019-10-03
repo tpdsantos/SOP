@@ -3,7 +3,7 @@ layout: post
 title: Introdução a AMPL
 author: Tiago Santos
 creation: 03-10-2018
-update: 06-10-2018
+update: 03-10-2019
 email: tpd.santos@campus.fct.unl.pt
 software: ampl
 ---
@@ -15,7 +15,7 @@ A linguagem AMPL é bastante distinta das outras linguagens mais populares no qu
 
 Tendo em conta isso, a linguagem AMPL foi criada especificamente para facilitar a formulação de problemas de otimização. Falando pessoalmente, acho que as pessoas sem conhecimentos de programação têm mais facilidade em adaptar-se à sintaxe, visto que é bastante diferente de todas as outras linguagens (eu, que quando aprendi vinha de MatLab, tive algumas dificuldades em percebê-la). Embora, no início, não pareça muito intuitiva, com um bocadinho de prática é muito fácil de se adaptar.
 
-Este tipo de linguagem não tem nada a ver com *MatLab* nem *Python*. Uma das pequenas coisas que têm em comum é o facto de podermos criar vetores. É uma linguagem baseada em conjuntos: quando criamos um conjunto, seja ele qual for (já mostraremos exemplos), ele podser atribuído a qualquer parâmetro ou variável criados. Uma outra grande diferença é o facto de ser **100% declarativa**, o que significa que, antes de utilizarem uma variável ou um parâmetro quando estão a construir um modelo, essa variável ou parâmetro tem de ser explicitamente declarado, têm que dizer que é um parâmetro, a que conjunto pertence (pode ser a nenhum conjunto) e de que tipo (se são símbolos, números, etc). Não é possível criar variáveis intermediárias não declaradas.
+Este tipo de linguagem não tem nada a ver com *MatLab* nem *Python*. Uma das pequenas coisas que têm em comum é o facto de podermos criar vetores. É uma linguagem baseada em conjuntos: quando criamos um conjunto, seja ele qual for (já mostraremos exemplos), ele pode ser atribuído a qualquer parâmetro ou variável criados. Uma outra grande diferença é o facto de ser **100% declarativa**, o que significa que, antes de utilizarem uma variável ou um parâmetro quando estão a construir um modelo, essa variável ou parâmetro tem de ser explicitamente declarado, têm que dizer que é um parâmetro, a que conjunto pertence (pode ser a nenhum conjunto) e de que tipo (se são símbolos, números, etc). Não é possível criar variáveis intermediárias não declaradas.
 
 Outros dois pontos muito importantes são: 
 
@@ -53,7 +53,7 @@ Visto que queremos achar o caudal ótimo de matérias primas, temos de criar uma
 var raw_flow { RAWMAT } >= 0.0 ; 
 ```
 
-Nesta sintaxe temos várias nuances. O comando `var` serve para explicitar uma variável e o que está entre chavetas é o conjunto que queremos associar à variável. Não há limite para o número de associações, uma variável ou parâmetro pode estar associado a qualquer número de conjuntos. Suponhamos que cada matéria prima é vendida por fábricas diferentes, podemos fazer isto:
+Nesta sintaxe temos várias nuances. O comando `var` serve para explicitar uma variável e o que está entre chavetas é o conjunto que queremos associar à variável. Não há limite para o número de associações, uma variável ou parâmetro pode estar associado a qualquer número de conjuntos. Supondo que cada matéria prima é vendida por fábricas diferentes, podemos fazer isto:
 
 ```
 set RAWMAT ;
@@ -70,10 +70,10 @@ Neste caso criámos uma variável associada a cada matéria prima e a cada fábr
 Parâmetros são constantes durante todo o programa. Podem ser rendimentos de reações, custos de matérias prima, custos de operação, etc. Para definir um basta:
 
 ```
-param RAW_COST { RAWMAT } >= 0 ;
+param RAW_COST { RAWMAT, FACTORIES } >= 0 ;
 ```
 
-Assim ficou definido um parâmetro que engloba os custos das matérias primas.
+Neste exemplo, o parâmetro `RAW_COST` representa o preço a que as diferentes fábricas vendem as diferentes matérias primas.
 
 
 ### Tipos

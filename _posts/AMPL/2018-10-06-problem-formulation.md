@@ -3,7 +3,7 @@ layout: post
 title: Formular um Problema
 author: Tiago Santos
 creation: 06-10-2018
-update: 15-10-2018
+update: 03-10-2019
 email: tpd.santos@campus.fct.unl.pt
 software: ampl
 ---
@@ -26,7 +26,7 @@ As VD servem principalmente para simplificar e tornar legível fórmulas e model
 
 ## Restrições
 
-As restrições são muito importantes em AMPL. Como o nome indica, são maneiras de escrever restriçṍes ao nosss problema, mas tem várias peculiaridades para nos facilitar a vida, por isso vamos abordar as mais usadas. A sintaxe mais simples:
+As restrições são muito importantes em AMPL. Como o nome indica, são maneiras de escrever restriçṍes ao nosso problema, mas tem várias peculiaridades para nos facilitar a vida, por isso vamos abordar as mais usadas. A sintaxe mais simples:
 
 ```
 s.t. restriction_name : something = solmething_else ;
@@ -34,7 +34,7 @@ s.t. restriction_name : something = solmething_else ;
 subject to restriction_name : something = something_else ;
 ```
 
-`something` e `something_else` podem ser qualquer tipo de fórmula ou equação, podem envolver VI, VD e parâmetros. Onde está `=` pode estar `< > <= >=`. Algo a notar é que, ao contrário de *Julia*, o termo à esquerda do símbolo de comparação não é necessário que seja apenas uma variável, podemos ter expressões complexas em ambos os lados do símbolo.
+`something` e `something_else` podem ser qualquer tipo de fórmula ou equação, podem envolver VI, VD e parâmetros. Onde está `=` pode estar `< > <= >=`. Algo a notar é que, ao contrário de outras linguagens de programação (*MATLAB*, *Python*), o termo à esquerda do símbolo de comparação não é necessário que seja apenas uma variável, podemos ter expressões complexas em ambos os lados do símbolo.
 
 Muitas das vezes nós temos variáveis associadas a conjuntos, e normalmente queremos restrições para todas as associações das variáveis. Por exemplo, tendo um conjunto de matérias primas e tendo uma variável que é o caudal das matérias primas, queremos determinar o caudal ótimo de matérias primas sabendo que existe um limite máximo de venda de matérias primas por dia. Uma restrição que descreveria este exemplo seria:
 

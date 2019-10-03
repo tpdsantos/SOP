@@ -2,8 +2,8 @@
 layout   : post
 title    : Especificação dos dados de um problema
 author   : Tiago Santos
-creation : 02-11-2016
-update   : 02-11-2016
+creation : 02-11-2018
+update   : 03-10-2019
 email    : tpd.santos@campus.fct.unl.pt
 software : ampl
 ---
@@ -41,6 +41,38 @@ param : P1 , P2 , P3 , P4 , P5 :=
 ```
 
 `V1`, `V2`, `V3` correspondem apenas a valores fictícios. Ao meter `:` depois de `param` podemos meter, entre vírgulas, todos os parâmetros associados ao mesmo conjunto. Desta forma podemos definir vários parâmetros ao mesmo tempo, poupando espaço e tempo.
+
+Quando temos parâmetros que estão associados a vários conjuntos, há também uma sintaxe especial para escrevermos os valores desse parâmetro em forma de tabela. No exemplo
+
+```
+set A ;
+set B ;
+
+param param_AB {A,B} ;
+```
+
+Podemos dar os valores de `param_AB` da seguinte forma (por baixo da secção `data` :
+
+```
+param param_AB : A1 A2 A3 :=
+            B1   V1 V2 V3
+			B2   V4 V5 V6
+			B3   V7 V8 V9  ;
+```
+
+Bem mais simples e compacto que :
+
+```
+param param_AB := A1 B1 V1
+                  A2 B1 V2
+				  A3 B1 V3
+				  A1 B2 V4
+				  A2 B2 V5
+				  A3 B2 V6
+				  A1 B3 V7
+				  A2 B3 V8
+				  A3 B3 V9 ;
+```
 
 Algumas vezes temos conjuntos extensos, e os parâmetros associados a esses seriam também tediosos de dar valores. Para não precisarmos de definir primeiro o conjunto e depois o parâmetro associado a ele, podemos definir os dois ao mesmo tempo:
 
